@@ -7,6 +7,7 @@ import plugin.generator.fmmodel.FMClass;
 import plugin.generator.fmmodel.FMEnumeration;
 import plugin.generator.fmmodel.FMModel;
 import plugin.generator.fmmodel.FMProperty;
+import plugin.generator.fmmodel.FMType;
 
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -123,6 +124,7 @@ public class ModelAnalyzer {
 			p.getName() + " must have type!");
 		
 		String typeName = attType.getName();
+		String typePackage = attType.getPackage().getName();
 		if (typeName == null)
 			throw new AnalyzeException("Type ot the property " + cl.getName() + "." +
 			p.getName() + " must have name!");		
@@ -130,7 +132,7 @@ public class ModelAnalyzer {
 		int lower = p.getLower();
 		int upper = p.getUpper();
 		
-		FMProperty prop = new FMProperty(attName, typeName, p.getVisibility().toString(), 
+		FMProperty prop = new FMProperty(attName, new FMType(typeName, typePackage), p.getVisibility().toString(), 
 				lower, upper);
 		return prop;		
 	}	

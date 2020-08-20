@@ -2,7 +2,6 @@ package plugin.generator;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,21 +11,11 @@ import javax.swing.JOptionPane;
 import freemarker.template.TemplateException;
 import plugin.generator.fmmodel.FMClass;
 import plugin.generator.fmmodel.FMModel;
-import plugin.generator.fmmodel.FMProperty;
 import plugin.generator.options.GeneratorOptions;
 
-/**
- * EJB generator that now generates incomplete ejb classes based on MagicDraw
- * class model
- * 
- * @ToDo: enhance resources/templates/ejbclass.ftl template and intermediate
- *        data structure (@see myplugin.generator.fmmodel) in order to generate
- *        complete ejb classes
- */
+public class RepositoryGenerator extends BasicGenerator {
 
-public class ModelGenerator extends BasicGenerator {
-
-	public ModelGenerator(GeneratorOptions generatorOptions) {
+	public RepositoryGenerator(GeneratorOptions generatorOptions) {
 		super(generatorOptions);
 	}
 
@@ -35,32 +24,18 @@ public class ModelGenerator extends BasicGenerator {
 		try {
 			super.generate();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
+			JOptionPane.showMessageDialog(null, "0"+e.getMessage());
 		}
 
 		List<FMClass> classes = FMModel.getInstance().getClasses();
-		
-		
 		for (int i = 0; i < classes.size(); i++) {
 			FMClass cl = classes.get(i);
 			Writer out;
 			Map<String, Object> context = new HashMap<String, Object>();
-			
-			ArrayList<String> imports = new ArrayList<>();
-			String import_str = "";
-			for(FMProperty p : cl.getProperties()){
-				import_str = cl.getTypePackage() + "." + p.getType().getName();	
-				if(!imports.contains(import_str) && import_str != ""){
-					imports.add(import_str);
-				}
-				
-			}
-			
 			try {
 				out = getWriter(cl.getName(), cl.getTypePackage());
 				if (out != null) {
 					context.clear();
-					context.put("imports", imports);
 					context.put("class", cl);
 					context.put("properties", cl.getProperties());
 					context.put("importedPackages", cl.getImportedPackages());
@@ -68,10 +43,11 @@ public class ModelGenerator extends BasicGenerator {
 					out.flush();
 				}
 			} catch (TemplateException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
+				JOptionPane.showMessageDialog(null,"1"+ e.getMessage());
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null, e.getMessage());
+				JOptionPane.showMessageDialog(null,"2"+ e.getMessage());
 			}
 		}
 	}
 }
+

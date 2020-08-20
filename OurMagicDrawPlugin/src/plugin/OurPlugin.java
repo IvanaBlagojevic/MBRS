@@ -38,14 +38,23 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 				
 		//ejbOptions.setTemplateDir(pluginDir + File.separator + ejbOptions.getTemplateDir()); //apsolutna putanja
 		modelGeneratorOptions();
+		repositoryGeneratorOptions();
 	}
 
 	public void modelGeneratorOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "modelclass", "templates", "{0}.java", true, "uns.ftn.mbrs.model"); 	
-		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "modelclass", "templates", "{0}.java", true, "application.model");
+		//prouciti da li overwrite ima veze sa
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ModelGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
+	
+	public void repositoryGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "repositoryclass", "templates", "{0}Repository.java", true, "application.repository");
+		//prouciti da li overwrite ima veze sa
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("RepositoryGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
 	private NMAction[] getSubmenuActions()
 	{
 	   return new NMAction[]{

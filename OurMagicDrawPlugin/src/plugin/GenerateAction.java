@@ -20,6 +20,7 @@ import plugin.analyzer.AnalyzeException;
 import plugin.analyzer.ModelAnalyzer;
 import plugin.generator.EJBGenerator;
 import plugin.generator.ModelGenerator;
+import plugin.generator.RepositoryGenerator;
 import plugin.generator.fmmodel.FMModel;
 import plugin.generator.options.GeneratorOptions;
 import plugin.generator.options.ProjectOptions;
@@ -45,6 +46,8 @@ class GenerateAction extends MDAction{
 		GeneratorOptions generatorOptions = null;
 		try {
 			generateModel(analyzer, root, generatorOptions);
+			generateRepository(analyzer, root, generatorOptions);
+			exportToXml();
 		} catch (AnalyzeException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} 
@@ -72,9 +75,16 @@ class GenerateAction extends MDAction{
 		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ModelGenerator");
 		ModelGenerator modelGenerator = new ModelGenerator(generatorOptions);
 		modelGenerator.generate();
-		JOptionPane.showMessageDialog(null, "Code is successfully generated! Generated code is in folder: "
-				+ generatorOptions.getOutputPath() + ", package: " + generatorOptions.getFilePackage());
-		exportToXml();
+	}
+	
+	public void generateRepository(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
+			throws AnalyzeException {
+		analyzer = new ModelAnalyzer(root, "application.repository");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("RepositoryGenerator");
+		RepositoryGenerator modelGenerator = new RepositoryGenerator(generatorOptions);
+		modelGenerator.generate();
+		
 	}
 	
 	private void exportToXml() {
