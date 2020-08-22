@@ -46,21 +46,11 @@ public class ModelGenerator extends BasicGenerator {
 			Writer out;
 			Map<String, Object> context = new HashMap<String, Object>();
 			
-			ArrayList<String> imports = new ArrayList<>();
-			String import_str = "";
-			for(FMProperty p : cl.getProperties()){
-				import_str = cl.getTypePackage() + "." + p.getType().getName();	
-				if(!imports.contains(import_str) && import_str != ""){
-					imports.add(import_str);
-				}
-				
-			}
 			
 			try {
 				out = getWriter(cl.getName(), cl.getTypePackage());
 				if (out != null) {
 					context.clear();
-					context.put("imports", imports);
 					context.put("class", cl);
 					context.put("properties", cl.getProperties());
 					context.put("importedPackages", cl.getImportedPackages());

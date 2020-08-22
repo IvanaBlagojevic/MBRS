@@ -1,10 +1,11 @@
 package ${class.typePackage};
 <#-- IMPORTS -->
-<#list imports as import>
-import ${import};
+<#list importedPackages as imports>
+import ${imports};
 </#list>
-import java.util.*;
+
 import javax.persistence.*;
+import java.utils.*;
 
 
 @Entity
@@ -12,12 +13,12 @@ import javax.persistence.*;
 ${class.visibility} class ${class.name} {  
 <#list properties as property>
 	<#if property.upper == 1 >   
-      ${property.visibility} ${property.type.name} ${property.name};
+      ${property.visibility?lower_case} ${property.type.name} ${property.name};
     <#elseif property.upper == -1 > 
-      ${property.visibility} Set<${property.type.name}> ${property.name} = new HashSet<${property.type.name}>();
+      ${property.visibility?lower_case} Set<${property.type.name}> ${property.name} = new HashSet<${property.type.name}>();
     <#else>   
     	<#list 1..property.upper as i>
-      ${property.visibility} ${property.type.name} ${property.name}${i};
+      ${property.visibility?lower_case} ${property.type.name} ${property.name}${i};
 		</#list>  
     </#if>     
 </#list>

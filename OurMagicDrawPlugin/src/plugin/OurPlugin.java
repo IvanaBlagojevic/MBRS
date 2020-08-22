@@ -18,7 +18,7 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 	String pluginDir = null; 
 	
 	public void init() {
-		JOptionPane.showMessageDialog( null, "Our Plugin DIN init");
+		//JOptionPane.showMessageDialog( null, "Our Plugin DIN init");
 		
 		pluginDir = getDescriptor().getPluginDirectory().getPath();//C:\Program Files\MagicDraw UML\plugins\pluginDNI
 		

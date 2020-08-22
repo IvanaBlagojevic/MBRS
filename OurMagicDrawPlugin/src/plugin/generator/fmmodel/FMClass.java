@@ -10,9 +10,13 @@ public class FMClass extends FMType {
 	
 	private String visibility;
 	
+	private Boolean create;
+	private Boolean update;
+	private Boolean delete;
 
 	//Class properties
 	private List<FMProperty> FMProperties = new ArrayList<FMProperty>();
+	private List<FMOperation> operations = new ArrayList<FMOperation>();
 	
 	//list of packages (for import declarations) 
 	private List<String> importedPackages = new ArrayList<String>();
@@ -63,6 +67,57 @@ public class FMClass extends FMType {
 
 	public void setVisibility(String visibility) {
 		this.visibility = visibility;
+	}
+
+	public List<FMProperty> getFMProperties() {
+		return FMProperties;
+	}
+
+	public void setFMProperties(List<FMProperty> fMProperties) {
+		FMProperties = fMProperties;
+	}
+
+	public List<FMOperation> getOperations() {
+		return operations;
+	}
+
+	public void setOperations(List<FMOperation> operations) {
+		this.operations = operations;
+	}
+
+	public void setImportedPackages(List<String> importedPackages) {
+		this.importedPackages = importedPackages;
+	}
+
+	public Boolean getCreate() {
+		return create;
+	}
+
+	public void setCreate(Boolean create) {
+		this.create = create;
+	}
+
+	public Boolean getUpdate() {
+		return update;
+	}
+
+	public void setUpdate(Boolean update) {
+		this.update = update;
+	}
+
+	public Boolean getDelete() {
+		return delete;
+	}
+
+	public void setDelete(Boolean delete) {
+		this.delete = delete;
+	}
+
+	@Override
+	public String toString() {
+		return "FMClass [visibility=" + visibility + ", create=" + create + ", update=" + update + ", delete=" + delete
+				+ ", FMProperties=" + FMProperties + ", operations=" + operations + ", importedPackages="
+				+ importedPackages + "]";
 	}	
 
 	
