@@ -15,11 +15,12 @@ public class FMModel {
 	
 	private String groupId;
 	private String artifactId;
-	private Integer version;
+	private String version;
 	private Integer port;
 	private String databaseUrl;
 	private String databaseUsername;
 	private String databasePassword;
+	private Integer javaVersion;
 	
 	//....
 	/** @ToDo: Add lists of other elements, if needed */
@@ -57,11 +58,11 @@ public class FMModel {
 		this.artifactId = artifactId;
 	}
 
-	public Integer getVersion() {
+	public String getVersion() {
 		return version;
 	}
 
-	public void setVersion(Integer version) {
+	public void setVersion(String version) {
 		this.version = version;
 	}
 
@@ -113,11 +114,19 @@ public class FMModel {
 		this.groupId = groupId;
 	}
 
+	public Integer getJavaVersion() {
+		return javaVersion;
+	}
+
+	public void setJavaVersion(Integer javaVersion) {
+		this.javaVersion = javaVersion;
+	}
+
 	@Override
 	public String toString() {
 		return "FMModel [classes=" + classes + ", enumerations=" + enumerations + ", groupId=" + groupId
 				+ ", artifactId=" + artifactId + ", version=" + version + ", port=" + port + ", databaseUrl="
-				+ databaseUrl + ", databaseUsername=" + databaseUsername + ", databasePassword=" + databasePassword
+				+ databaseUrl + ", databaseUsername=" + databaseUsername + ", databasePassword=" + databasePassword + ", javaVersion=" + javaVersion
 				+ "]";
 	}
 

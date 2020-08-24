@@ -10,7 +10,9 @@ import javax.swing.JOptionPane;
 import plugin.generator.fmmodel.CascadeType;
 import plugin.generator.fmmodel.FMClass;
 import plugin.generator.fmmodel.FMEnumeration;
+import plugin.generator.fmmodel.FMLinkedCharacteristics;
 import plugin.generator.fmmodel.FMModel;
+import plugin.generator.fmmodel.FMPersistentCharacteristics;
 import plugin.generator.fmmodel.FMProperty;
 import plugin.generator.fmmodel.FMType;
 import plugin.generator.fmmodel.FetchType;
@@ -126,7 +128,7 @@ public class ModelAnalyzer {
 						FMModel.getInstance().setArtifactId(artifactId);
 						break;
 					case "version":
-						Integer version = (Integer) value.get(0);
+						String version = (String) value.get(0);
 						FMModel.getInstance().setVersion(version);
 						break;
 					case "port":
@@ -145,6 +147,9 @@ public class ModelAnalyzer {
 						String databasePassword = (String) value.get(0);
 						FMModel.getInstance().setDatabasePassword(databasePassword);
 						break;
+					case "javaVersion":
+						Integer javaVersion = (Integer) value.get(0);
+						FMModel.getInstance().setJavaVersion(javaVersion);
 					}
 				}
 			}
@@ -223,6 +228,7 @@ public class ModelAnalyzer {
 				Constants.linkedPropertyIdentifier);
 		if (linkedProperty != null) {
 			List<Property> tags = linkedProperty.getOwnedAttribute();
+			prop.setLinkedCharacteristics(new FMLinkedCharacteristics());
 			for (Property tag : tags) {
 				List<?> value = StereotypesHelper.getStereotypePropertyValue(p, linkedProperty, tag.getName());
 				if (value.size() > 0) {
@@ -288,6 +294,7 @@ public class ModelAnalyzer {
 				Constants.persistentPropertyIdentifier);
 		if (persistentProperty != null) {
 			List<Property> tags = persistentProperty.getOwnedAttribute();
+			prop.setPersistentCharacteristics(new FMPersistentCharacteristics());
 			for (Property tag : tags) {
 				List<?> value = StereotypesHelper.getStereotypePropertyValue(p, persistentProperty, tag.getName());
 				if (value.size() > 0) {

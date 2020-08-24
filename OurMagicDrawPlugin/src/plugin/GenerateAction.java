@@ -18,8 +18,13 @@ import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import plugin.analyzer.AnalyzeException;
 import plugin.analyzer.ModelAnalyzer;
+import plugin.generator.ApplicationYmlGenerator;
+import plugin.generator.ControllerGenerator;
+import plugin.generator.DtoGenerator;
 import plugin.generator.EJBGenerator;
+import plugin.generator.MainGenerator;
 import plugin.generator.ModelGenerator;
+import plugin.generator.PomXmlGenerator;
 import plugin.generator.RepositoryGenerator;
 import plugin.generator.fmmodel.FMModel;
 import plugin.generator.options.GeneratorOptions;
@@ -45,8 +50,15 @@ class GenerateAction extends MDAction{
 		ModelAnalyzer analyzer = null;	
 		GeneratorOptions generatorOptions = null;
 		try {
+			analyzer = new ModelAnalyzer(root, "");
+			analyzer.prepareModel();
+			generateMain(analyzer, root, generatorOptions);
 			generateModel(analyzer, root, generatorOptions);
 			generateRepository(analyzer, root, generatorOptions);
+			generateController(analyzer, root, generatorOptions);
+			generateDTO(analyzer, root, generatorOptions);
+			generatePomXml(analyzer, root, generatorOptions);
+			generateApplicationYml(analyzer, root, generatorOptions);
 			exportToXml();
 		} catch (AnalyzeException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -68,9 +80,19 @@ class GenerateAction extends MDAction{
 		} /**  @ToDo: Also call other generators */ 
 	}
 	
+	public void generateMain(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) 
+			throws AnalyzeException {
+		//"application"
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId());
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("MainGenerator");
+		MainGenerator mainGenerator = new MainGenerator(generatorOptions);
+		mainGenerator.generate();
+	}
+	
 	public void generateModel(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
 			throws AnalyzeException {
-		analyzer = new ModelAnalyzer(root, "application.model");
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".model");
 		analyzer.prepareModel();
 		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ModelGenerator");
 		ModelGenerator modelGenerator = new ModelGenerator(generatorOptions);
@@ -79,7 +101,7 @@ class GenerateAction extends MDAction{
 	
 	public void generateRepository(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
 			throws AnalyzeException {
-		analyzer = new ModelAnalyzer(root, "application.repository");
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".repository");
 		analyzer.prepareModel();
 		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("RepositoryGenerator");
 		RepositoryGenerator modelGenerator = new RepositoryGenerator(generatorOptions);
@@ -87,7 +109,44 @@ class GenerateAction extends MDAction{
 		
 	}
 	
+	public void generateController(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".controller");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ControllerGenerator");
+		ControllerGenerator controllerGenerator = new ControllerGenerator(generatorOptions);
+		controllerGenerator.generate();
+	}
+	
+	public void generateDTO(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".dto");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("DtoGenerator");
+		DtoGenerator dtoGenerator = new DtoGenerator(generatorOptions);
+		dtoGenerator.generate();
+	}
+	
+	public void generatePomXml(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("PomXmlGenerator");
+		PomXmlGenerator pomGenerator = new PomXmlGenerator(generatorOptions);
+		pomGenerator.generate();
+	}
+	
+	public void generateApplicationYml(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ApplicationYmlGenerator");
+		ApplicationYmlGenerator appYmlGenerator = new ApplicationYmlGenerator(generatorOptions);
+		appYmlGenerator.generate();
+	}
+	
 	private void exportToXml() {
+		//JOptionPane.showMessageDialog(null, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId());
 		if (JOptionPane.showConfirmDialog(null, "Do you want to save FM Model?") == 
 			JOptionPane.OK_OPTION)
 		{	
@@ -102,6 +161,7 @@ class GenerateAction extends MDAction{
 							new FileOutputStream(fileName), "UTF8"));					
 					xstream.toXML(FMModel.getInstance().getClasses(), out);
 					xstream.toXML(FMModel.getInstance().getEnumerations(), out);
+					
 					
 				} catch (UnsupportedEncodingException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage());				

@@ -18,9 +18,9 @@ public class FMProperty extends FMElement  {
 	
 	private Boolean setter;
 	
-	private FMPersistentCharacteristics persistentCharacteristics = new FMPersistentCharacteristics();
+	private FMPersistentCharacteristics persistentCharacteristics;
 	
-	private FMLinkedCharacteristics linkedCharacteristics = new FMLinkedCharacteristics();
+	private FMLinkedCharacteristics linkedCharacteristics;
 	
 	
 	/** @ToDo: Add length, precision, unique... whatever is needed for ejb class generation
