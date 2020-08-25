@@ -1,8 +1,13 @@
 package ${class.typePackage};
 
+<#-- IMPORTS -->
 <#list imports as i>
+	<#if !i?starts_with(class.typePackage)>
 import ${i};
+	</#if>
 </#list>
+import java.utils.*;
+import ${class.typePackage?keep_before_last(".")}.model.*;
 
 public class ${class.name}DTO {
 <#list properties as property>

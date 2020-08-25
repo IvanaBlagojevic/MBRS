@@ -23,6 +23,7 @@ import plugin.generator.ControllerGenerator;
 import plugin.generator.DtoGenerator;
 import plugin.generator.EJBGenerator;
 import plugin.generator.MainGenerator;
+import plugin.generator.EnumerationGenerator;
 import plugin.generator.ModelGenerator;
 import plugin.generator.PomXmlGenerator;
 import plugin.generator.RepositoryGenerator;
@@ -59,25 +60,12 @@ class GenerateAction extends MDAction{
 			generateDTO(analyzer, root, generatorOptions);
 			generatePomXml(analyzer, root, generatorOptions);
 			generateApplicationYml(analyzer, root, generatorOptions);
+			generateEnumeration(analyzer, root, generatorOptions);
 			exportToXml();
 		} catch (AnalyzeException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		} 
-		/*
-		 * ModelAnalyzer analyzer = new ModelAnalyzer(root, "ejb");	
 		
-		try {
-			analyzer.prepareModel();	
-			GeneratorOptions go = ProjectOptions.getProjectOptions().getGeneratorOptions().get("EJBGenerator");			
-			EJBGenerator generator = new EJBGenerator(go);
-			generator.generate();
-			
-			JOptionPane.showMessageDialog(null, "Code is successfully generated! Generated code is in folder: " + go.getOutputPath() +
-					                         ", package: " + go.getFilePackage());
-			exportToXml();
-		} catch (AnalyzeException e) {
-			JOptionPane.showMessageDialog(null, e.getMessage());
-		} /**  @ToDo: Also call other generators */ 
 	}
 	
 	public void generateMain(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) 
@@ -109,6 +97,7 @@ class GenerateAction extends MDAction{
 		
 	}
 	
+
 	public void generateController(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
 	{
 		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".controller");
@@ -143,6 +132,16 @@ class GenerateAction extends MDAction{
 		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ApplicationYmlGenerator");
 		ApplicationYmlGenerator appYmlGenerator = new ApplicationYmlGenerator(generatorOptions);
 		appYmlGenerator.generate();
+	}
+	
+	public void generateEnumeration(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
+			throws AnalyzeException {
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".model");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("EnumerationGenerator");
+		EnumerationGenerator modelGenerator = new EnumerationGenerator(generatorOptions);
+		modelGenerator.generate();
+
 	}
 	
 	private void exportToXml() {

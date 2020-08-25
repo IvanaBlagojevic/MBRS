@@ -40,6 +40,7 @@ public class ControllerGenerator extends BasicGenerator {
 				{
 					context.clear();
 					context.put("class", cl);
+					context.put("importedPackages", cl.getImportedPackages());
 					getTemplate().process(context, out);
 					out.flush();
 				}

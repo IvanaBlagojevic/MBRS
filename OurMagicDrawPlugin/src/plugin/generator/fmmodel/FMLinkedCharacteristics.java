@@ -15,7 +15,7 @@ public class FMLinkedCharacteristics  {
 	private Boolean optional;
 
 	
-
+	private Integer oppositeUpper;
 	
 	public FMLinkedCharacteristics() {
 		super();
@@ -71,6 +71,15 @@ public class FMLinkedCharacteristics  {
 	public void setOptional(Boolean optional) {
 		this.optional = optional;
 	}
+
+	public Integer getOppositeUpper() {
+		return oppositeUpper;
+	}
+
+	public void setOppositeUpper(Integer oppositeUpper) {
+		this.oppositeUpper = oppositeUpper;
+	}
+
 	
 	
 

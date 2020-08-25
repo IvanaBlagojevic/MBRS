@@ -45,6 +45,8 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		dtoGeneratorOptions();
 		pomXmlGeneratorOptions();
 		applicationYmlGeneratorOptions();
+		enumerationGeneratorOptions();
+
 	}
 
 	public void mainGeneratorOptions() {
@@ -97,6 +99,15 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ApplicationYmlGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
+	
+	public void enumerationGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "enumerationclass", "templates", "{0}.java", true, "application.model");
+		//prouciti da li overwrite ima veze sa
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("EnumerationGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
+
 	
 	private NMAction[] getSubmenuActions()
 	{

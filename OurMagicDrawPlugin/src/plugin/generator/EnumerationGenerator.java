@@ -11,38 +11,40 @@ import javax.swing.JOptionPane;
 
 import freemarker.template.TemplateException;
 import plugin.generator.fmmodel.FMClass;
+import plugin.generator.fmmodel.FMEnumeration;
 import plugin.generator.fmmodel.FMModel;
 import plugin.generator.fmmodel.FMProperty;
 import plugin.generator.options.GeneratorOptions;
 
-public class DtoGenerator extends BasicGenerator {
 
-	public DtoGenerator(GeneratorOptions generatorOptions) {
+
+public class EnumerationGenerator extends BasicGenerator {
+
+	public EnumerationGenerator(GeneratorOptions generatorOptions) {
 		super(generatorOptions);
-		// TODO Auto-generated constructor stub
 	}
-	
+
 	public void generate() {
-		
+
 		try {
 			super.generate();
 		} catch (IOException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
+
+		List<FMEnumeration> enums = FMModel.getInstance().getEnumerations();
 		
-		List<FMClass> classes = FMModel.getInstance().getClasses();
-		for(FMClass cl : classes)
-		{
+		
+		for (int i = 0; i < enums.size(); i++) {
+			FMEnumeration en = enums.get(i);
 			Writer out;
 			Map<String, Object> context = new HashMap<String, Object>();
+			
 			try {
-				out = getWriter(cl.getName(), cl.getTypePackage());
-				if(out != null)
-				{
+				out = getWriter(en.getName(), en.getTypePackage());
+				if (out != null) {
 					context.clear();
-					context.put("class", cl);
-					context.put("imports", cl.getImportedPackages());
-					context.put("properties", cl.getProperties());
+					context.put("enum", en);
 					getTemplate().process(context, out);
 					out.flush();
 				}
@@ -53,7 +55,4 @@ public class DtoGenerator extends BasicGenerator {
 			}
 		}
 	}
-	
-	
-
 }
