@@ -39,6 +39,8 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		//ejbOptions.setTemplateDir(pluginDir + File.separator + ejbOptions.getTemplateDir()); //apsolutna putanja
 		modelGeneratorOptions();
 		repositoryGeneratorOptions();
+		serviceGeneratorOptions();
+		serviceImplGeneratorOptions();
 	}
 
 	public void modelGeneratorOptions() {
@@ -52,6 +54,21 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "repositoryclass", "templates", "{0}Repository.java", true, "application.repository");
 		//prouciti da li overwrite ima veze sa
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("RepositoryGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+		
+	public void serviceGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "serviceclass", "templates", "{0}.java", true, "uns.ftn.mbrs.services"); 	
+		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ServiceGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
+	public void serviceImplGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "serviceimplclass", "templates", "{0}.java", true, "uns.ftn.mbrs.servicesImpl"); 	
+		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ServiceImplGenerator", generatorOptions);
+
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	

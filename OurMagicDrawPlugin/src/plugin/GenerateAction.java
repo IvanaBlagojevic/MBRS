@@ -21,6 +21,8 @@ import plugin.analyzer.ModelAnalyzer;
 import plugin.generator.EJBGenerator;
 import plugin.generator.ModelGenerator;
 import plugin.generator.RepositoryGenerator;
+import plugin.generator.ServiceGenerator;
+import plugin.generator.ServiceImplGenerator;
 import plugin.generator.fmmodel.FMModel;
 import plugin.generator.options.GeneratorOptions;
 import plugin.generator.options.ProjectOptions;
@@ -47,6 +49,8 @@ class GenerateAction extends MDAction{
 		try {
 			generateModel(analyzer, root, generatorOptions);
 			generateRepository(analyzer, root, generatorOptions);
+			generateService(analyzer, root, generatorOptions);
+			generateServiceImpl(analyzer, root, generatorOptions);
 			exportToXml();
 		} catch (AnalyzeException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -85,7 +89,31 @@ class GenerateAction extends MDAction{
 		RepositoryGenerator modelGenerator = new RepositoryGenerator(generatorOptions);
 		modelGenerator.generate();
 		
+		exportToXml();
 	}
+	
+	public void generateService(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
+			throws AnalyzeException {
+		analyzer = new ModelAnalyzer(root, "application.service");
+		analyzer.prepareModel();
+		
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ServiceGenerator");
+		ServiceGenerator serviceGenerator = new ServiceGenerator(generatorOptions);
+		serviceGenerator.generate();
+		exportToXml();
+	}
+	
+	public void generateServiceImpl(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
+			throws AnalyzeException {
+		analyzer = new ModelAnalyzer(root, "application.serviceImpl");
+		analyzer.prepareModel();
+		
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ServiceImplGenerator");
+		ServiceImplGenerator serviceGenerator = new ServiceImplGenerator(generatorOptions);
+		serviceGenerator.generate();
+		exportToXml();
+	}
+	
 	
 	private void exportToXml() {
 		if (JOptionPane.showConfirmDialog(null, "Do you want to save FM Model?") == 

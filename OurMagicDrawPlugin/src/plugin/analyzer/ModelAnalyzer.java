@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+
 import plugin.generator.fmmodel.CascadeType;
 import plugin.generator.fmmodel.FMClass;
 import plugin.generator.fmmodel.FMEnumeration;
@@ -16,6 +17,7 @@ import plugin.generator.fmmodel.FMType;
 import plugin.generator.fmmodel.FetchType;
 import plugin.generator.fmmodel.GenerationStrategy;
 import plugin.generator.utils.Constants;
+import plugin.generator.fmmodel.FMServiceMethods;
 
 import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
@@ -23,10 +25,12 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
+import com.nomagic.uml2.synchronizer.ConstrainedElementHack;
 
 /**
  * Model Analyzer takes necessary metadata from the MagicDraw model and puts it
@@ -163,6 +167,7 @@ public class ModelAnalyzer {
 		while (it.hasNext()) {
 			Property p = it.next();
 			FMProperty prop = getPropertyData(p, cl);
+
 			fmClass.addProperty(prop);
 		}
 
@@ -170,7 +175,7 @@ public class ModelAnalyzer {
 		 * @ToDo: Add import declarations etc.
 		 */
 		importsFMClass(fmClass);
-
+/*
 		Stereotype entityStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, Constants.entityIdentifier);
 		if (entityStereotype != null) {
 			List<Property> tags = entityStereotype.getOwnedAttribute();// atributi stereotipa
@@ -197,6 +202,42 @@ public class ModelAnalyzer {
 		// JOptionPane.showMessageDialog(null, fmClass.getName()+ "update
 		// "+fmClass.getUpdate()+"create "+fmClass.getCreate()+"delete
 		// "+fmClass.getDelete());
+			fmClass.addProperty(prop);	*/
+		
+		
+		/** @ToDo:
+		 * Add import declarations etc. */	
+		
+		Stereotype stereotypeEntity = StereotypesHelper.getAppliedStereotypeByString(cl, "Entity");
+		if (stereotypeEntity != null) {
+			List<Property> properties = stereotypeEntity.getOwnedAttribute();
+			List<FMServiceMethods> methodsService = new ArrayList<FMServiceMethods>();
+			/*Collection<Constraint> cons= stereotypeEntity.get_constraintOfConstrainedElement();
+			if (cons.isEmpty()!=true) {
+				for (Constraint constraint : cons) {
+					constraint.
+				}
+			}*/
+			
+			for (Property p : properties) {
+				String tagName = p.getName();
+				List tag = StereotypesHelper.getStereotypePropertyValue(cl, stereotypeEntity, tagName);
+				if (tag.size()>0) {
+					Boolean value = true;
+					try {
+						value = (Boolean) tag.get(0);
+					}catch(Exception e) {
+						//JOptionPane.showMessageDialog(null, e.getMessage());
+					}
+					methodsService.add(new FMServiceMethods(tagName, value));
+				}
+			
+			}
+			
+			fmClass.setServiceMethods(methodsService);
+		}
+				
+
 		return fmClass;
 	}
 

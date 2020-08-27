@@ -21,6 +21,7 @@ public class FMClass extends FMType {
 	//list of packages (for import declarations) 
 	private List<String> importedPackages = new ArrayList<String>();
 	
+	private List<FMServiceMethods> serviceMethods = null;
 	/** @ToDo: add list of methods */
 	
 	
@@ -56,6 +57,7 @@ public class FMClass extends FMType {
 	public void addImportedPackage(String importedPackage){
 		importedPackages.add(importedPackage);		
 	}
+	
 	
 	public int getImportedCount(){
 		return FMProperties.size();
@@ -120,6 +122,14 @@ public class FMClass extends FMType {
 				+ importedPackages + "]";
 	}	
 
-	
+	public List<FMServiceMethods> getServiceMethods() {
+		return serviceMethods;
+	}
+
+	public void setServiceMethods(List<FMServiceMethods> serviceMethods) {
+		this.serviceMethods = serviceMethods;
+	}
+
+
 	
 }
