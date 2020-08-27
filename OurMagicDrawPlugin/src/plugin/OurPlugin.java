@@ -4,6 +4,7 @@ import java.io.File;
 
 import javax.swing.JOptionPane;
 
+import plugin.generator.fmmodel.FMModel;
 import plugin.generator.options.GeneratorOptions;
 import plugin.generator.options.ProjectOptions;
 
@@ -37,21 +38,33 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		//ProjectOptions.getProjectOptions().getGeneratorOptions().put("EJBGenerator", ejbOptions);
 				
 		//ejbOptions.setTemplateDir(pluginDir + File.separator + ejbOptions.getTemplateDir()); //apsolutna putanja
+		mainGeneratorOptions();
 		modelGeneratorOptions();
 		repositoryGeneratorOptions();
 		serviceGeneratorOptions();
 		serviceImplGeneratorOptions();
+		controllerGeneratorOptions();
+		dtoGeneratorOptions();
+		pomXmlGeneratorOptions();
+		applicationYmlGeneratorOptions();
+		enumerationGeneratorOptions();
 	}
 
+	public void mainGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "mainclass", "templates", "MainApplication.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId());
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("MainGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
 	public void modelGeneratorOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "modelclass", "templates", "{0}.java", true, "application.model");
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "modelclass", "templates", "{0}.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".model");
 		//prouciti da li overwrite ima veze sa
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ModelGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	
 	public void repositoryGeneratorOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "repositoryclass", "templates", "{0}Repository.java", true, "application.repository");
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "repositoryclass", "templates", "{0}Repository.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "repository");
 		//prouciti da li overwrite ima veze sa
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("RepositoryGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
@@ -71,6 +84,46 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
+	
+	public void controllerGeneratorOptions() {																									
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "controllerclass", "templates", "{0}Controller.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "controller"); 	
+		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ControllerGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+		
+
+	}
+	
+	public void dtoGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "dtoclass", "templates", "{0}DTO.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "dto"); 	
+		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("DtoGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+		
+	}
+	
+	public void pomXmlGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs", "pomxml", "templates", "pom.xml", true, ""); 	
+		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("PomXmlGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
+	public void applicationYmlGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/resources", "applicationYml", "templates", "application.yml", true, ""); 	
+		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ApplicationYmlGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
+	public void enumerationGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "enumerationclass", "templates", "{0}.java", true, "application.model");
+		//prouciti da li overwrite ima veze sa
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("EnumerationGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
+
 	
 	private NMAction[] getSubmenuActions()
 	{

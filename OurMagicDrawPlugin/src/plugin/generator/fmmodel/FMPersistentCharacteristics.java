@@ -27,6 +27,7 @@ public class FMPersistentCharacteristics{
 	public FMPersistentCharacteristics() {
 		super();
 		// TODO Auto-generated constructor stub
+		this.key=false;
 	}
 
 

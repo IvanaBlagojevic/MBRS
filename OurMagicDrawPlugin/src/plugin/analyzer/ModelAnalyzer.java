@@ -2,8 +2,10 @@ package plugin.analyzer;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JOptionPane;
 
@@ -11,7 +13,9 @@ import javax.swing.JOptionPane;
 import plugin.generator.fmmodel.CascadeType;
 import plugin.generator.fmmodel.FMClass;
 import plugin.generator.fmmodel.FMEnumeration;
+import plugin.generator.fmmodel.FMLinkedCharacteristics;
 import plugin.generator.fmmodel.FMModel;
+import plugin.generator.fmmodel.FMPersistentCharacteristics;
 import plugin.generator.fmmodel.FMProperty;
 import plugin.generator.fmmodel.FMType;
 import plugin.generator.fmmodel.FetchType;
@@ -23,9 +27,11 @@ import com.nomagic.uml2.ext.jmi.helpers.ModelHelper;
 import com.nomagic.uml2.ext.jmi.helpers.StereotypesHelper;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Element;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.EnumerationLiteral;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Generalization;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Package;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Class;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Constraint;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
@@ -48,11 +54,19 @@ public class ModelAnalyzer {
 
 	// java root package for generated code
 	private String filePackage;
+	
+	private Map<String, String> entities = new HashMap<>();
 
+	private List<String> simpleTypes = new ArrayList<String>();
 	public ModelAnalyzer(Package root, String filePackage) {
 		super();
 		this.root = root;
 		this.filePackage = filePackage;
+		simpleTypes.add("long");simpleTypes.add("int");simpleTypes.add("boolean");simpleTypes.add("char");
+		simpleTypes.add("short");simpleTypes.add("float");simpleTypes.add("double");simpleTypes.add("void");
+		simpleTypes.add("String");simpleTypes.add("Date");simpleTypes.add("Boolean");simpleTypes.add("date");
+		
+		
 	}
 
 	public Package getRoot() {
@@ -69,7 +83,6 @@ public class ModelAnalyzer {
 		// Recursive procedure that extracts data from package elements and stores it in
 		// the
 		// intermediate data structure
-
 		if (pack.getName() == null)
 			throw new AnalyzeException("Packages must have names!");
 
@@ -79,6 +92,15 @@ public class ModelAnalyzer {
 		}
 
 		if (pack.hasOwnedElement()) {
+			for (Iterator<Element> it = pack.getOwnedElement().iterator(); it.hasNext();) {
+				Element ownedElement = it.next();
+				if (ownedElement instanceof Class) {
+					Class cl = (Class) ownedElement;
+					entities.put(cl.getID(), cl.getName());
+					// JOptionPane.showMessageDialog(null, fmClass.getName());
+				}
+
+			}
 
 			for (Iterator<Element> it = pack.getOwnedElement().iterator(); it.hasNext();) {
 				Element ownedElement = it.next();
@@ -130,7 +152,7 @@ public class ModelAnalyzer {
 						FMModel.getInstance().setArtifactId(artifactId);
 						break;
 					case "version":
-						Integer version = (Integer) value.get(0);
+						String version = (String) value.get(0);
 						FMModel.getInstance().setVersion(version);
 						break;
 					case "port":
@@ -149,6 +171,9 @@ public class ModelAnalyzer {
 						String databasePassword = (String) value.get(0);
 						FMModel.getInstance().setDatabasePassword(databasePassword);
 						break;
+					case "javaVersion":
+						Integer javaVersion = (Integer) value.get(0);
+						FMModel.getInstance().setJavaVersion(javaVersion);
 					}
 				}
 			}
@@ -174,8 +199,29 @@ public class ModelAnalyzer {
 		/**
 		 * @ToDo: Add import declarations etc.
 		 */
+		
 		importsFMClass(fmClass);
 /*
+=======
+		if(cl.hasGeneralization()) {
+			Collection<Generalization> general =cl.getGeneralization();
+			general.iterator().next();
+			//JOptionPane.showMessageDialog(null, cl.getName()+" " +general.iterator().next().getHumanName());
+			//JOptionPane.showMessageDialog(null, cl.getName()+" id" +general.iterator().next().getGeneral().getID()
+			//+ " general" +general.iterator().next().getGeneral()
+			//+"prva klasa id " +entities.entrySet().stream().findFirst());
+			//JOptionPane.showMessageDialog(null, cl.getName()+" " +general.iterator().next().get_representationText());
+			;
+			if (entities.containsKey(general.iterator().next().getGeneral().getID())) {
+				String parentEntity = entities.get(general.iterator().next().getGeneral().getID());
+				fmClass.setAncestor(parentEntity);
+				//JOptionPane.showMessageDialog(null, cl.getName()+" " +parentEntity);
+			}
+		}else {
+			//JOptionPane.showMessageDialog(null, cl.getName()+" " +"nije nasleddnica");
+		}
+
+>>>>>>> af709869feb9942e5e5f61c9263176aa93d70061
 		Stereotype entityStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, Constants.entityIdentifier);
 		if (entityStereotype != null) {
 			List<Property> tags = entityStereotype.getOwnedAttribute();// atributi stereotipa
@@ -256,7 +302,12 @@ public class ModelAnalyzer {
 
 		int lower = p.getLower();
 		int upper = p.getUpper();
+		//JOptionPane.showMessageDialog(null,attName+" "
+		//		+ lower+" "+upper);
 
+		if(typeName.equals("date")) {
+			typeName = "Date";
+		}
 		FMProperty prop = new FMProperty(attName, new FMType(typeName, typePackage), p.getVisibility().toString(),
 				lower, upper);
 
@@ -264,6 +315,7 @@ public class ModelAnalyzer {
 				Constants.linkedPropertyIdentifier);
 		if (linkedProperty != null) {
 			List<Property> tags = linkedProperty.getOwnedAttribute();
+			prop.setLinkedCharacteristics(new FMLinkedCharacteristics());
 			for (Property tag : tags) {
 				List<?> value = StereotypesHelper.getStereotypePropertyValue(p, linkedProperty, tag.getName());
 				if (value.size() > 0) {
@@ -296,7 +348,10 @@ public class ModelAnalyzer {
 					}
 				}
 			}
-			// svi stereotipovi sa hijerarhijom
+			Property opposite = p.getOpposite();
+			prop.getLinkedCharacteristics().setOppositeUpper(opposite.getUpper());
+			
+			
 			Collection<Stereotype> sH = StereotypesHelper.getStereotypesHierarchy(p);
 			for (Stereotype s : sH) {
 				List<Property> tagsInherited = s.getOwnedAttribute();
@@ -329,6 +384,7 @@ public class ModelAnalyzer {
 				Constants.persistentPropertyIdentifier);
 		if (persistentProperty != null) {
 			List<Property> tags = persistentProperty.getOwnedAttribute();
+			prop.setPersistentCharacteristics(new FMPersistentCharacteristics());
 			for (Property tag : tags) {
 				List<?> value = StereotypesHelper.getStereotypePropertyValue(p, persistentProperty, tag.getName());
 				if (value.size() > 0) {
@@ -435,8 +491,9 @@ public class ModelAnalyzer {
 		String import_str = "";
 		for (FMProperty p : cl.getProperties()) {
 			import_str = cl.getTypePackage() + "." + p.getType().getName();
-			if (!imports.contains(import_str) && import_str != "") {
+			if (!imports.contains(import_str) && import_str != "" && !simpleTypes.contains(p.getType().getName())) {
 				imports.add(import_str);
+			
 			}
 
 		}

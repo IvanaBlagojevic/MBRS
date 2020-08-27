@@ -9,10 +9,10 @@ import java.util.List;
 public class FMClass extends FMType {	
 	
 	private String visibility;
-	
 	private Boolean create;
 	private Boolean update;
 	private Boolean delete;
+	private String ancestor;
 
 	//Class properties
 	private List<FMProperty> FMProperties = new ArrayList<FMProperty>();
@@ -81,6 +81,16 @@ public class FMClass extends FMType {
 
 	public List<FMOperation> getOperations() {
 		return operations;
+	}
+
+
+
+	public String getAncestor() {
+		return ancestor;
+	}
+
+	public void setAncestor(String ancestor) {
+		this.ancestor = ancestor;
 	}
 
 	public void setOperations(List<FMOperation> operations) {
