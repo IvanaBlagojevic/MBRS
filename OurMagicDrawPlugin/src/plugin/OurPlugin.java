@@ -30,21 +30,17 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		/** @Todo: load project options (@see myplugin.generator.options.ProjectOptions) from 
 		 * ProjectOptions.xml and take ejb generator options */
 		
-		//ovo treba izmeniti?
-		//for test purpose only:
-		//GeneratorOptions ejbOptions = new GeneratorOptions("c:/temp", "ejbclass", "templates", "{0}.java", true, "ejb"); 
-		//GeneratorOptions(String outputPath, String templateName,String templateDir, String outputFileName, Boolean overwrite,
-		//String filePackage)
-		//ProjectOptions.getProjectOptions().getGeneratorOptions().put("EJBGenerator", ejbOptions);
-				
-		//ejbOptions.setTemplateDir(pluginDir + File.separator + ejbOptions.getTemplateDir()); //apsolutna putanja
 		mainGeneratorOptions();
 		modelGeneratorOptions();
-		repositoryGeneratorOptions();
+		modelImplGeneratorOptions();
+		repositoryGeneratorImplOptions();
 		serviceGeneratorOptions();
 		serviceImplGeneratorOptions();
+		repositoryGeneratorOptions();
+		controllerGeneratorImplOptions();
 		controllerGeneratorOptions();
 		dtoGeneratorOptions();
+		dtoImplGeneratorOptions();
 		pomXmlGeneratorOptions();
 		applicationYmlGeneratorOptions();
 		enumerationGeneratorOptions();
@@ -58,67 +54,80 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 	
 	public void modelGeneratorOptions() {
 		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "modelclass", "templates", "{0}.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".model");
-		//prouciti da li overwrite ima veze sa
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ModelGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	
-	public void repositoryGeneratorOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "repositoryclass", "templates", "{0}Repository.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "repository");
-		//prouciti da li overwrite ima veze sa
-		ProjectOptions.getProjectOptions().getGeneratorOptions().put("RepositoryGenerator", generatorOptions);
+	public void modelImplGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "modelImplclass", "templates", "{0}Impl.java", false, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".modelImpl");
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ModelImplGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
+	public void repositoryGeneratorImplOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "repositoryImplclass", "templates", "{0}ImplRepository.java", false, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "repositoryImpl");
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("RepositoryImplGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 		
 	public void serviceGeneratorOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "serviceclass", "templates", "{0}.java", true, "uns.ftn.mbrs.services"); 	
-		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "serviceclass", "templates", "{0}Service.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "services"); 	
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ServiceGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	
 	public void serviceImplGeneratorOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "serviceimplclass", "templates", "{0}.java", true, "uns.ftn.mbrs.servicesImpl"); 	
-		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "serviceimplclass", "templates", "{0}ServiceImpl.java", false, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "serviceImpl"); 	
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ServiceImplGenerator", generatorOptions);
 
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	
+	public void repositoryGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "repositoryclass", "templates", "{0}Repository.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "repository");
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("RepositoryGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
+	public void controllerGeneratorImplOptions() {																									
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "controllerImplclass", "templates", "{0}ImplController.java", false, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "controllerImpl"); 	
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ControllerImplGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
 	public void controllerGeneratorOptions() {																									
 		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "controllerclass", "templates", "{0}Controller.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "controller"); 	
-		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ControllerGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
-		
-
 	}
 	
 	public void dtoGeneratorOptions() {
 		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "dtoclass", "templates", "{0}DTO.java", true, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "dto"); 	
-		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("DtoGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());	
+	}
+	
+	public void dtoImplGeneratorOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "dtoImplclass", "templates", "{0}ImplDTO.java", false, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ "dtoImpl"); 	
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("DtoImplGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 		
 	}
 	
 	public void pomXmlGeneratorOptions() {
 		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs", "pomxml", "templates", "pom.xml", true, ""); 	
-		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("PomXmlGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	
 	public void applicationYmlGeneratorOptions() {
 		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/resources", "applicationYml", "templates", "application.yml", true, ""); 	
-		//true se odnosi na "overwrite", njega treba staviti na false jer zelimo da se promene sacuvaju
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("ApplicationYmlGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	
 	public void enumerationGeneratorOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "enumerationclass", "templates", "{0}.java", true, "application.model");
-		//prouciti da li overwrite ima veze sa
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/src/main/java", "enumerationclass", "templates", "{0}.java", true, FMModel.getInstance().getArtifactId()+ "model");
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("EnumerationGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}

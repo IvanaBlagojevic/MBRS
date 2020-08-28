@@ -4,14 +4,14 @@ package plugin.generator.options;
  * have one instance of this class */
 //inicijalizovali smo u klasi OurPlugin GeneratorOptions("c:/temp", "ejbclass", "templates", "{0}.java", true, "ejb");
 public class GeneratorOptions  {
-	private String outputPath; 
+	private String outputPath; //1
 	private String templateName;
 	private String templateDir;
-	private String outputFileName;
+	private String outputFileName;//3
 	private Boolean overwrite;
-	private String filePackage;
-	
-	
+	private String filePackage;//2
+	//C:\temp\mbrs\src\main\java \com\example\mbrs\repository
+	//c:/temp/mbrs/src/main/javacom.example.mbrs.repository
 	public GeneratorOptions(String outputPath, String templateName,
 			String templateDir, String outputFileName, Boolean overwrite,
 			String filePackage) {

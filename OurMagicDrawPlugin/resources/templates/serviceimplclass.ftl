@@ -4,12 +4,18 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ${class.typePackage?keep_before_last(".")}.service.*;
+import ${class.typePackage?keep_before_last(".")}.model.*;
+import ${class.typePackage?keep_before_last(".")}.repository.*;
+
+
+
 
 @Service
 ${class.visibility} class ${class.name}ServiceImpl implements ${class.name}Service{ 
 
 	@Autowired
-	${class.name}Repository ${class.name?uncap_first}Repository;
+	protected ${class.name}Repository ${class.name?uncap_first}Repository;
 
 	@Override
 	${class.visibility} ${class.name} findOne(Long id){
@@ -34,7 +40,7 @@ ${class.visibility} class ${class.name}ServiceImpl implements ${class.name}Servi
 
 <#if m.name == 'delete' && m.value==true>  
 	@Override 
-	void remove${class.name}(Long id){
+	public void remove${class.name}(Long id){
 		${class.name?uncap_first}Repository.deleteById(id);  
 	}
 </#if>  

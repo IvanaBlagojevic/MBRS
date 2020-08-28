@@ -1,7 +1,9 @@
+
 package plugin.generator;
 
 import java.io.IOException;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,11 +13,21 @@ import javax.swing.JOptionPane;
 import freemarker.template.TemplateException;
 import plugin.generator.fmmodel.FMClass;
 import plugin.generator.fmmodel.FMModel;
+import plugin.generator.fmmodel.FMProperty;
 import plugin.generator.options.GeneratorOptions;
 
-public class RepositoryGenerator extends BasicGenerator {
+/**
+ * EJB generator that now generates incomplete ejb classes based on MagicDraw
+ * class model
+ * 
+ * @ToDo: enhance resources/templates/ejbclass.ftl template and intermediate
+ *        data structure (@see myplugin.generator.fmmodel) in order to generate
+ *        complete ejb classes
+ */
 
-	public RepositoryGenerator(GeneratorOptions generatorOptions) {
+public class ModelImplGenerator extends BasicGenerator {
+
+	public ModelImplGenerator(GeneratorOptions generatorOptions) {
 		super(generatorOptions);
 	}
 
@@ -24,14 +36,18 @@ public class RepositoryGenerator extends BasicGenerator {
 		try {
 			super.generate();
 		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "0"+e.getMessage());
+			JOptionPane.showMessageDialog(null, e.getMessage());
 		}
 
 		List<FMClass> classes = FMModel.getInstance().getClasses();
+		
+		
 		for (int i = 0; i < classes.size(); i++) {
 			FMClass cl = classes.get(i);
 			Writer out;
 			Map<String, Object> context = new HashMap<String, Object>();
+			
+			
 			try {
 				out = getWriter(cl.getName(), cl.getTypePackage());
 				if (out != null) {
@@ -43,9 +59,9 @@ public class RepositoryGenerator extends BasicGenerator {
 					out.flush();
 				}
 			} catch (TemplateException e) {
-				JOptionPane.showMessageDialog(null,"1"+ e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage());
 			} catch (IOException e) {
-				JOptionPane.showMessageDialog(null,"2"+ e.getMessage());
+				JOptionPane.showMessageDialog(null, e.getMessage());
 			}
 		}
 	}

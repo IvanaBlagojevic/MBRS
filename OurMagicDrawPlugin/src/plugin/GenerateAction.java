@@ -20,13 +20,17 @@ import plugin.analyzer.AnalyzeException;
 import plugin.analyzer.ModelAnalyzer;
 import plugin.generator.ApplicationYmlGenerator;
 import plugin.generator.ControllerGenerator;
+import plugin.generator.ControllerImplGenerator;
 import plugin.generator.DtoGenerator;
+import plugin.generator.DtoImplGenerator;
 import plugin.generator.EJBGenerator;
 import plugin.generator.MainGenerator;
 import plugin.generator.EnumerationGenerator;
 import plugin.generator.ModelGenerator;
+import plugin.generator.ModelImplGenerator;
 import plugin.generator.PomXmlGenerator;
 import plugin.generator.RepositoryGenerator;
+import plugin.generator.RepositoryImplGenerator;
 import plugin.generator.ServiceGenerator;
 import plugin.generator.ServiceImplGenerator;
 import plugin.generator.fmmodel.FMModel;
@@ -57,11 +61,15 @@ class GenerateAction extends MDAction{
 			analyzer.prepareModel();
 			generateMain(analyzer, root, generatorOptions);
 			generateModel(analyzer, root, generatorOptions);
-			generateRepository(analyzer, root, generatorOptions);
+			generateModelImpl(analyzer, root, generatorOptions);
+			generateRepositoryImpl(analyzer, root, generatorOptions);
 			generateService(analyzer, root, generatorOptions);
 			generateServiceImpl(analyzer, root, generatorOptions);
+			generateRepository(analyzer, root, generatorOptions);
+			generateControllerImpl(analyzer, root, generatorOptions);
 			generateController(analyzer, root, generatorOptions);
 			generateDTO(analyzer, root, generatorOptions);
+			generateDTOImpl(analyzer, root, generatorOptions);
 			generatePomXml(analyzer, root, generatorOptions);
 			generateApplicationYml(analyzer, root, generatorOptions);
 			generateEnumeration(analyzer, root, generatorOptions);
@@ -91,15 +99,23 @@ class GenerateAction extends MDAction{
 		modelGenerator.generate();
 	}
 	
-	public void generateRepository(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
+	public void generateModelImpl(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
 			throws AnalyzeException {
-		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".repository");
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".modelImpl");
 		analyzer.prepareModel();
-		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("RepositoryGenerator");
-		RepositoryGenerator modelGenerator = new RepositoryGenerator(generatorOptions);
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ModelImplGenerator");
+		ModelImplGenerator modelGenerator = new ModelImplGenerator(generatorOptions);
+		modelGenerator.generate();
+	}
+	
+	public void generateRepositoryImpl(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
+			throws AnalyzeException {
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".repositoryImpl");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("RepositoryImplGenerator");
+		RepositoryImplGenerator modelGenerator = new RepositoryImplGenerator(generatorOptions);
 		modelGenerator.generate();
 		
-		exportToXml();
 	}
 	
 	public void generateService(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
@@ -110,7 +126,6 @@ class GenerateAction extends MDAction{
 		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ServiceGenerator");
 		ServiceGenerator serviceGenerator = new ServiceGenerator(generatorOptions);
 		serviceGenerator.generate();
-		exportToXml();
 	}
 	
 	public void generateServiceImpl(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
@@ -121,10 +136,27 @@ class GenerateAction extends MDAction{
 		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ServiceImplGenerator");
 		ServiceImplGenerator serviceGenerator = new ServiceImplGenerator(generatorOptions);
 		serviceGenerator.generate();
-		exportToXml();
 	}
 	
+	public void generateRepository(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions)
+			throws AnalyzeException {
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".repository");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("RepositoryGenerator");
+		RepositoryGenerator modelGenerator = new RepositoryGenerator(generatorOptions);
+		modelGenerator.generate();
+		
+	}
 
+	public void generateControllerImpl(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".controllerImpl");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("ControllerImplGenerator");
+		ControllerImplGenerator controllerGenerator = new ControllerImplGenerator(generatorOptions);
+		controllerGenerator.generate();
+	}
+	
 	public void generateController(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
 	{
 		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".controller");
@@ -140,6 +172,15 @@ class GenerateAction extends MDAction{
 		analyzer.prepareModel();
 		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("DtoGenerator");
 		DtoGenerator dtoGenerator = new DtoGenerator(generatorOptions);
+		dtoGenerator.generate();
+	}
+	
+	public void generateDTOImpl(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, FMModel.getInstance().getGroupId() + "." + FMModel.getInstance().getArtifactId()+ ".dtoImpl");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("DtoImplGenerator");
+		DtoImplGenerator dtoGenerator = new DtoImplGenerator(generatorOptions);
 		dtoGenerator.generate();
 	}
 	

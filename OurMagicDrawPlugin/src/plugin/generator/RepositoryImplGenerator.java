@@ -13,9 +13,9 @@ import plugin.generator.fmmodel.FMClass;
 import plugin.generator.fmmodel.FMModel;
 import plugin.generator.options.GeneratorOptions;
 
-public class RepositoryGenerator extends BasicGenerator {
+public class RepositoryImplGenerator extends BasicGenerator {
 
-	public RepositoryGenerator(GeneratorOptions generatorOptions) {
+	public RepositoryImplGenerator(GeneratorOptions generatorOptions) {
 		super(generatorOptions);
 	}
 
@@ -50,3 +50,4 @@ public class RepositoryGenerator extends BasicGenerator {
 		}
 	}
 }
+

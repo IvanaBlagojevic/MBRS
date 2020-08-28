@@ -201,8 +201,7 @@ public class ModelAnalyzer {
 		 */
 		
 		importsFMClass(fmClass);
-/*
-=======
+
 		if(cl.hasGeneralization()) {
 			Collection<Generalization> general =cl.getGeneralization();
 			general.iterator().next();
@@ -221,7 +220,6 @@ public class ModelAnalyzer {
 			//JOptionPane.showMessageDialog(null, cl.getName()+" " +"nije nasleddnica");
 		}
 
->>>>>>> af709869feb9942e5e5f61c9263176aa93d70061
 		Stereotype entityStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, Constants.entityIdentifier);
 		if (entityStereotype != null) {
 			List<Property> tags = entityStereotype.getOwnedAttribute();// atributi stereotipa
@@ -248,7 +246,7 @@ public class ModelAnalyzer {
 		// JOptionPane.showMessageDialog(null, fmClass.getName()+ "update
 		// "+fmClass.getUpdate()+"create "+fmClass.getCreate()+"delete
 		// "+fmClass.getDelete());
-			fmClass.addProperty(prop);	*/
+			//fmClass.addProperty(prop);	
 		
 		
 		/** @ToDo:

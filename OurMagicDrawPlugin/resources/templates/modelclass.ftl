@@ -7,7 +7,7 @@ import ${imports};
 </#list>
 
 import javax.persistence.*;
-import java.utils.*;
+import java.util.*;
 
 
 @Entity
@@ -16,12 +16,12 @@ ${class.visibility} class ${class.name} <#if (class.ancestor)??>extends ${class.
 <#list properties as property>
 	<#if property.persistentCharacteristics??>   
       		<#if property.persistentCharacteristics.key>
-      	@Id
+    @Id
       			<#if (property.persistentCharacteristics.generatedValue)??>
-      	@GeneratedValue(strategy = GenerationType.${property.persistentCharacteristics.generatedValue})
+    @GeneratedValue(strategy = GenerationType.${property.persistentCharacteristics.generatedValue})
       			</#if>
       		<#else>
-      	@Column(<#rt>
+    @Column(<#rt>
 		   <#if (property.name)??>
 		       <#lt>name = "${property.name?lower_case}"<#rt>
 		   </#if>
