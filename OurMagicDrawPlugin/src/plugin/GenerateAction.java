@@ -24,6 +24,13 @@ import plugin.generator.ControllerImplGenerator;
 import plugin.generator.DtoGenerator;
 import plugin.generator.DtoImplGenerator;
 import plugin.generator.EJBGenerator;
+import plugin.generator.HomePageJsGenerator;
+import plugin.generator.HtmlFormGenerator;
+import plugin.generator.HtmlIndexGenerator;
+import plugin.generator.HtmlItemsOverviewGenerator;
+import plugin.generator.JQueryMinFileGenerator;
+import plugin.generator.JQueryVersionFileGenerator;
+import plugin.generator.JsFormGenerator;
 import plugin.generator.MainGenerator;
 import plugin.generator.EnumerationGenerator;
 import plugin.generator.ModelGenerator;
@@ -73,6 +80,13 @@ class GenerateAction extends MDAction{
 			generatePomXml(analyzer, root, generatorOptions);
 			generateApplicationYml(analyzer, root, generatorOptions);
 			generateEnumeration(analyzer, root, generatorOptions);
+			generateJQueryFile(analyzer, root, generatorOptions);
+			generateJQueryVersionFile(analyzer, root, generatorOptions);
+			generateHtmlIndexFile(analyzer, root, generatorOptions);
+			generateHomePageJsFile(analyzer, root, generatorOptions);
+			generateHtmlItemsOverview(analyzer, root, generatorOptions);
+			generateHtmlFormFile(analyzer, root, generatorOptions);
+			generateFormJsFile(analyzer, root, generatorOptions);
 			exportToXml();
 		} catch (AnalyzeException e) {
 			JOptionPane.showMessageDialog(null, e.getMessage());
@@ -209,6 +223,70 @@ class GenerateAction extends MDAction{
 		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("EnumerationGenerator");
 		EnumerationGenerator modelGenerator = new EnumerationGenerator(generatorOptions);
 		modelGenerator.generate();
+	
+	}
+	
+	public void generateJQueryFile(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("JQueryMinFileGenerator");
+		JQueryMinFileGenerator queryGenerator = new JQueryMinFileGenerator(generatorOptions);
+		queryGenerator.generate();
+	}
+	
+	public void generateJQueryVersionFile(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("JQueryVersionFileGenerator");
+		JQueryVersionFileGenerator queryGenerator = new JQueryVersionFileGenerator(generatorOptions);
+		queryGenerator.generate();
+	}
+	
+	public void generateHtmlIndexFile(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("HtmlIndexGenerator");
+		HtmlIndexGenerator htmlIndexGenerator = new HtmlIndexGenerator(generatorOptions);
+		htmlIndexGenerator.generate();
+	}
+	
+	public void generateHomePageJsFile(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("HomePageJsGenerator");
+		HomePageJsGenerator homePageJsGenerator = new HomePageJsGenerator(generatorOptions);
+		homePageJsGenerator.generate();
+	}
+	
+	public void generateHtmlItemsOverview(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("HtmlItemsOverviewGenerator");
+		HtmlItemsOverviewGenerator htmlItemsGenerator = new HtmlItemsOverviewGenerator(generatorOptions);
+		htmlItemsGenerator.generate();
+	}
+	
+	public void generateHtmlFormFile(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("HtmlFormGenerator");
+		HtmlFormGenerator htmlGenerator = new HtmlFormGenerator(generatorOptions);
+		htmlGenerator.generate();
+	}
+	
+	public void generateFormJsFile(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("JsFormGenerator");
+		JsFormGenerator jsGenerator = new JsFormGenerator(generatorOptions);
+		jsGenerator.generate();
 
 	}
 	

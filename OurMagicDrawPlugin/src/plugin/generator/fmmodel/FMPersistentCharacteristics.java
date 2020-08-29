@@ -9,8 +9,6 @@ public class FMPersistentCharacteristics{
 	private Integer precision;
 	private GenerationStrategy generatedValue;
 	
-	
-	
 
 
 	public FMPersistentCharacteristics(Boolean key, Boolean unique, Integer length, Integer precision,
@@ -79,8 +77,6 @@ public class FMPersistentCharacteristics{
 	public void setGeneratedValue(GenerationStrategy generatedValue) {
 		this.generatedValue = generatedValue;
 	}
-	
-	
 	
 
 }

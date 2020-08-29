@@ -31,6 +31,11 @@ public class FMEnumeration extends FMType {
 	public ArrayList<String> getValues() {
 		return values;
 	}
+
+
+	public void setValues(ArrayList<String> values) {
+		values = values;
+	}
 	
 }
 

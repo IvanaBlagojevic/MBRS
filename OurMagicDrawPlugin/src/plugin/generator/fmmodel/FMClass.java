@@ -13,6 +13,10 @@ public class FMClass extends FMType {
 	private Boolean update;
 	private Boolean delete;
 	private String ancestor;
+	private Boolean uiAdd;
+	private Boolean uiDelete;
+	private Boolean uiUpdate;
+
 
 	//Class properties
 	private List<FMProperty> FMProperties = new ArrayList<FMProperty>();
@@ -123,6 +127,31 @@ public class FMClass extends FMType {
 
 	public void setDelete(Boolean delete) {
 		this.delete = delete;
+	}
+	
+
+	public Boolean getUiAdd() {
+		return uiAdd;
+	}
+
+	public void setUiAdd(Boolean uiAdd) {
+		this.uiAdd = uiAdd;
+	}
+
+	public Boolean getUiDelete() {
+		return uiDelete;
+	}
+
+	public void setUiDelete(Boolean uiDelete) {
+		this.uiDelete = uiDelete;
+	}
+
+	public Boolean getUiUpdate() {
+		return uiUpdate;
+	}
+
+	public void setUiUpdate(Boolean uiUpdate) {
+		this.uiUpdate = uiUpdate;
 	}
 
 	@Override

@@ -22,6 +22,14 @@ public class FMProperty extends FMElement  {
 	
 	private FMLinkedCharacteristics linkedCharacteristics;
 	
+	private Boolean isEditable;
+	
+	private Boolean isReadOnly;
+	
+	private String label;
+	
+	private ComponentType component;
+	
 	
 	/** @ToDo: Add length, precision, unique... whatever is needed for ejb class generation
 	 * Also, provide these meta-attributes or tags in the modeling languange metaclass or 
@@ -101,6 +109,40 @@ public class FMProperty extends FMElement  {
 
 	public void setLinkedCharacteristics(FMLinkedCharacteristics linkedCharacteristics) {
 		this.linkedCharacteristics = linkedCharacteristics;
+	}
+	
+	
+
+	public Boolean getIsEditable() {
+		return isEditable;
+	}
+
+	public void setIsEditable(Boolean isEditable) {
+		this.isEditable = isEditable;
+	}
+
+	public Boolean getIsReadOnly() {
+		return isReadOnly;
+	}
+
+	public void setIsReadOnly(Boolean isReadOnly) {
+		this.isReadOnly = isReadOnly;
+	}
+
+	public ComponentType getComponent() {
+		return component;
+	}
+
+	public void setComponent(ComponentType component) {
+		this.component = component;
+	}
+
+	public String getLabel() {
+		return label;
+	}
+
+	public void setLabel(String label) {
+		this.label = label;
 	}
 
 	@Override

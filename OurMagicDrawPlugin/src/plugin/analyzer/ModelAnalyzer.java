@@ -11,6 +11,7 @@ import javax.swing.JOptionPane;
 
 
 import plugin.generator.fmmodel.CascadeType;
+import plugin.generator.fmmodel.ComponentType;
 import plugin.generator.fmmodel.FMClass;
 import plugin.generator.fmmodel.FMEnumeration;
 import plugin.generator.fmmodel.FMLinkedCharacteristics;
@@ -243,6 +244,7 @@ public class ModelAnalyzer {
 				}
 			}
 		}
+
 		// JOptionPane.showMessageDialog(null, fmClass.getName()+ "update
 		// "+fmClass.getUpdate()+"create "+fmClass.getCreate()+"delete
 		// "+fmClass.getDelete());
@@ -281,6 +283,36 @@ public class ModelAnalyzer {
 			fmClass.setServiceMethods(methodsService);
 		}
 				
+
+//		 JOptionPane.showMessageDialog(null, fmClass.getName()+ "update
+//		 "+fmClass.getUpdate()+"create "+fmClass.getCreate()+"delete
+//		 "+fmClass.getDelete());
+		
+		Stereotype uiFormStereotype = StereotypesHelper.getAppliedStereotypeByString(cl, Constants.uiFormIdentifier);
+		if(uiFormStereotype != null)
+		{
+			List<Property> tags = uiFormStereotype.getOwnedAttribute();
+			for (Property tag : tags) {
+				List<?> value = StereotypesHelper.getStereotypePropertyValue(cl, uiFormStereotype, tag.getName());
+				if (value.size() > 0) {
+					switch (tag.getName()) {
+					case "addItem":
+						Boolean add = (Boolean) value.get(0);
+						fmClass.setUiAdd(add);
+						break;
+					case "updateItem":
+						Boolean update = (Boolean) value.get(0);
+						fmClass.setUiUpdate(update);
+						break;
+					case "deleteItem":
+						Boolean delete = (Boolean) value.get(0);
+						fmClass.setUiDelete(delete);
+						break;
+					}
+				}
+			}
+		}
+
 
 		return fmClass;
 	}
@@ -365,7 +397,15 @@ public class ModelAnalyzer {
 							Boolean setter = (Boolean) values.get(0);
 							prop.setSetter(setter);
 							break;
-
+						case "label":
+							String label = (String) values.get(0);
+							prop.setLabel(label);
+							break;
+						case "component":
+							EnumerationLiteral type = (EnumerationLiteral) values.get(0);
+							String typeS = type.getName();
+							prop.setComponent(ComponentType.valueOf(typeS));
+							break;
 						}
 					}
 				}
@@ -376,6 +416,17 @@ public class ModelAnalyzer {
 							+ prop.getLinkedCharacteristics().getMappedBy() + " getter " + prop.getGetter() + " setter "
 							+ prop.getSetter());
 			*/
+		}
+		
+		Stereotype editableProperty = StereotypesHelper.getAppliedStereotypeByString(p,
+				Constants.editablePropertyIdentifier);
+		if (editableProperty != null) {
+			prop.setIsEditable(true);
+			prop.setIsReadOnly(false);
+		}else
+		{
+			prop.setIsEditable(false);
+			prop.setIsReadOnly(true);
 		}
 
 		Stereotype persistentProperty = StereotypesHelper.getAppliedStereotypeByString(p,
@@ -413,6 +464,8 @@ public class ModelAnalyzer {
 					}
 				}
 			}
+			
+			
 			Collection<Stereotype> sH = StereotypesHelper.getStereotypesHierarchy(p);
 			for (Stereotype s : sH) {
 				List<Property> tagsInherited = s.getOwnedAttribute();
@@ -428,6 +481,15 @@ public class ModelAnalyzer {
 							Boolean setter = (Boolean) values.get(0);
 							prop.setSetter(setter);
 							break;
+						case "label":
+							String label = (String) values.get(0);
+							prop.setLabel(label);
+							break;
+						case "component":
+							EnumerationLiteral type = (EnumerationLiteral) values.get(0);
+							String typeS = type.getName();
+							prop.setComponent(ComponentType.valueOf(typeS));
+							break;
 
 						}
 					}
@@ -442,6 +504,28 @@ public class ModelAnalyzer {
 							+ prop.getPersistentCharacteristics().getUnique() + " getter " + prop.getGetter()
 							+ " setter " + prop.getSetter());
 			 */
+		}
+		
+		Stereotype visibleProperty = StereotypesHelper.getAppliedStereotypeByString(p, Constants.visiblePropertyIdentifier);
+		if(visibleProperty != null){
+			List<Property> tags = visibleProperty.getOwnedAttribute();
+			for(Property tag : tags) {
+				List<?> value = StereotypesHelper.getStereotypePropertyValue(p, visibleProperty, tag.getName());
+				if(value.size() > 0)
+				{
+					switch (tag.getName()) {
+						case "label":
+							String label = (String) value.get(0);
+							prop.setLabel(label);
+							break;
+						case "componentType":
+							EnumerationLiteral type = (EnumerationLiteral) value.get(0);
+							String typeS = type.getName();
+							prop.setComponent(ComponentType.valueOf(typeS));
+							break;
+					}
+				}
+			}
 		}
 
 		Stereotype abstractProperty = StereotypesHelper.getAppliedStereotypeByString(p,
