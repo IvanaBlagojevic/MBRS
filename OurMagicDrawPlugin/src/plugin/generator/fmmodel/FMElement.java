@@ -23,5 +23,10 @@ public abstract class FMElement {
 		return name != null;
 	}
 
+	@Override
+	public String toString() {
+		return "FMElement [name=" + name + "]";
+	}
+
 	
 }

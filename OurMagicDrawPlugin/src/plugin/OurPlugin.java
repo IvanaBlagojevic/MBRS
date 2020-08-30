@@ -166,19 +166,19 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 	}
 	
 	public void htmlItemsOverviewOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/FrontContent", "html_items_overview", "templates",   "{0}.html", true, ""); 	
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/FrontContent", "html_items_overview", "templates",   "__{0}.html", true, ""); 	
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("HtmlItemsOverviewGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	
 	public void htmlFormGeneratorOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/FrontContent", "html_form", "templates",   "{0}Form.html", true, ""); 	
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/FrontContent", "html_form", "templates",   "__{0}Form.html", true, ""); 	
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("HtmlFormGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	
 	public void jsFormGeneratorOptions() {
-		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/FrontContent/js", "formJs", "templates",   "{0}Form.js", true, ""); 	
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/FrontContent/js", "formJs", "templates",   "__{0}Form.js", true, ""); 	
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("JsFormGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}

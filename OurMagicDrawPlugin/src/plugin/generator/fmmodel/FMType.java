@@ -21,4 +21,9 @@ public class FMType extends FMElement {
 	//Empty string for standard library types
 	private String typePackage;
 
+	@Override
+	public String toString() {
+		return "FMType [typePackage=" + typePackage + "]"; 
+	}
+
 }

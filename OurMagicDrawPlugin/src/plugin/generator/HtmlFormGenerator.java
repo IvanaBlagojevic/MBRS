@@ -45,7 +45,7 @@ public class HtmlFormGenerator extends BasicGenerator {
 					{
 						editProperties.add(p);
 						
-						if(p.getType() instanceof FMEnumeration)
+						if(p.getType().getTypePackage().equals("Data"))
 						{
 							for(FMEnumeration en : FMModel.getInstance().getEnumerations())
 							{
