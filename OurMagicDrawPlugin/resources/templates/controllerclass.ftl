@@ -28,7 +28,14 @@ public class ${class.name}Controller {
 
 	@Autowired
 	protected ${class.name}ServiceImpl ${class.name?lower_case}Service;
-
+	
+	<#list properties as property>
+		<#if property.linkedCharacteristics??>
+	@Autowired
+	protected ${property.type.name}ServiceImpl ${property.type.name?lower_case}Service;
+		</#if>
+	</#list>
+	
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> getAll() {
 		List<${class.name}> ${class.name?lower_case} = this.${class.name?lower_case}Service.findAll();
@@ -73,4 +80,34 @@ public class ${class.name}Controller {
 		return new ResponseEntity(null, HttpStatus.OK);
 	}
 	</#if>
+	
+<#list properties as property>
+	<#if property.linkedCharacteristics??>
+	@RequestMapping(value = "/${property.name}/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)	
+	public ResponseEntity<?> get${property.name?cap_first}(@PathVariable Long id) {
+		${class.name} ${class.name?lower_case} = this.${class.name?lower_case}Service.findOne(id);
+		if (${class.name?lower_case} == null){
+			return ResponseEntity.badRequest().build();
+		}else{
+			List<${property.type.name}> ${property.type.name?lower_case} = this.${property.type.name?lower_case}Service.findAll();
+	 		List<${property.type.name}DTO> ${property.type.name?lower_case}DTO = new ArrayList<${property.type.name}DTO>();
+	 		for(int i =0; i< ${property.type.name?lower_case}.size(); i++) {
+	 		<#if property.linkedCharacteristics.oppositeUpper == -1>
+	 			for( int j=0; j< ${property.type.name?lower_case}.get(i).get${class.name}().size(); j++) {
+	 				if(${property.type.name?lower_case}.get(i).get${class.name}().get(j).getId() == id){
+		 				${property.type.name?lower_case}DTO.add(new ${property.type.name}DTO(${property.type.name?lower_case}.get(i)));
+		 			}
+	 			}
+	 		<#else>
+	 			if(${property.type.name?lower_case}.get(i).get${class.name}().getId() == id){
+	 				${property.type.name?lower_case}DTO.add(new ${property.type.name}DTO(${property.type.name?lower_case}.get(i)));
+	 			}
+	 		</#if>	
+	 		}	
+			return new ResponseEntity<>(${property.type.name?lower_case}DTO, HttpStatus.OK);
+		}
+	}
+	
+	</#if>
+</#list>
 }

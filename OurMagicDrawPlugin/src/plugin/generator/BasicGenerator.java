@@ -114,37 +114,7 @@ public abstract class BasicGenerator {
 
 	}
 
-	public Writer getWriterHTMLJS(String fileNamePart, String packageName) throws IOException {
-		if (packageName != filePackage) {
-			packageName.replace(".", File.separator);		
-			filePackage = packageName;
-		}
-		String entityName = fileNamePart.substring(0, 1).toLowerCase() + fileNamePart.substring(1);
-		String fullPath = outputPath
-					+ File.separator
-					+ (filePackage.isEmpty() ? "" : packageToPath(filePackage)
-						+ File.separator)
-					+ outputFileName.replace("{0}", entityName);
-		//JOptionPane.showMessageDialog(null, "naslov "+entityName);
-		
-		File of = new File(fullPath);
-		if (!of.getParentFile().exists()) {
-			if (!of.getParentFile().mkdirs()) {
-				throw new IOException("An error occurred during output folder creation "
-						+ outputPath);
-			}
-		}
 
-		System.out.println(of.getPath());
-		System.out.println(of.getName());
-
-		if (!isOverwrite() && of.exists()) {
-			return null;
-		}
-
-		return new OutputStreamWriter(new FileOutputStream(of));
-
-	}
 	
 	protected String packageToPath(String pack) {
 		return pack.replace(".", File.separator);

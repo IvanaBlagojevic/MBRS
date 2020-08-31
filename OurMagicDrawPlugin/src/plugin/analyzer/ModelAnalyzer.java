@@ -389,13 +389,9 @@ public class ModelAnalyzer {
 					List<?> values = StereotypesHelper.getStereotypePropertyValue(p, s, tag.getName());
 					if (values.size() > 0) {
 						switch (tag.getName()) {
-						case "getter":
-							Boolean getter = (Boolean) values.get(0);
-							prop.setGetter(getter);
-							break;
-						case "setter":
-							Boolean setter = (Boolean) values.get(0);
-							prop.setSetter(setter);
+						case "columnname":
+							String columnname = (String) values.get(0);
+							prop.setColumnname(columnname);
 							break;
 						case "label":
 							String label = (String) values.get(0);
@@ -473,13 +469,9 @@ public class ModelAnalyzer {
 					List<?> values = StereotypesHelper.getStereotypePropertyValue(p, s, tag.getName());
 					if (values.size() > 0) {
 						switch (tag.getName()) {
-						case "getter":
-							Boolean getter = (Boolean) values.get(0);
-							prop.setGetter(getter);
-							break;
-						case "setter":
-							Boolean setter = (Boolean) values.get(0);
-							prop.setSetter(setter);
+						case "columnname":
+							String columnname = (String) values.get(0);
+							prop.setColumnname(columnname);
 							break;
 						case "label":
 							String label = (String) values.get(0);
@@ -536,14 +528,10 @@ public class ModelAnalyzer {
 				List<?> value = StereotypesHelper.getStereotypePropertyValue(p, abstractProperty, tag.getName());
 				if (value.size() > 0) {
 					switch (tag.getName()) {
-					case "getter":
-						Boolean getter = (Boolean) value.get(0);
-						prop.setGetter(getter);
-						break;
-					case "setter":
-						Boolean setter = (Boolean) value.get(0);
-						prop.setSetter(setter);
-						break;
+						case "columnname":
+							String columnname = (String) value.get(0);
+							prop.setColumnname(columnname);
+							break;
 
 					}
 				}

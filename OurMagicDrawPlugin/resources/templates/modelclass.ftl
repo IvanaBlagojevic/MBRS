@@ -28,9 +28,11 @@ ${class.visibility} class ${class.name} <#if (class.ancestor)??>extends ${class.
       			</#if>
       		<#else>
     @Column(<#rt>
-		   <#if (property.name)??>
-		       <#lt>name = "${property.name?lower_case}"<#rt>
-		   </#if>
+		    <#if (property.columnname)??>
+		       <#lt>name = "${property.columnname?lower_case}"<#rt>
+		   <#elseif (property.name)??>  
+		   	   <#lt>name = "${property.name?lower_case}"<#rt>
+		    </#if>
 		   <#if (property.persistentCharacteristics.length)??>
 		       <#lt><#if (property.name)??>, </#if>length = ${property.persistentCharacteristics.length}<#rt>
 		   </#if>

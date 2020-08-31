@@ -13,7 +13,7 @@ import ${class.typePackage?keep_before_last(".")}.controller.*;
 
 @RestController
 @RequestMapping("${class.name?lower_case}")
-public class ${class.name}ImplController{
+public class ${class.name}ImplController extends ${class.name}Controller{
 
 
 }

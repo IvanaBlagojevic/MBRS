@@ -14,9 +14,7 @@ public class FMProperty extends FMElement  {
 	//konvencija: -1 znači *
 	private Integer upper;
 	
-	private Boolean getter;
-	
-	private Boolean setter;
+	private String columnname;
 	
 	private FMPersistentCharacteristics persistentCharacteristics;
 	
@@ -53,6 +51,14 @@ public class FMProperty extends FMElement  {
 	}
 	
 	
+	public String getColumnname() {
+		return columnname;
+	}
+
+	public void setColumnname(String columnname) {
+		this.columnname = columnname;
+	}
+
 	public String getVisibility() {
 		return visibility;
 	}
@@ -77,23 +83,6 @@ public class FMProperty extends FMElement  {
 		this.upper = upper;
 	}
 
-	public Boolean getGetter() {
-		return getter;
-	}
-
-	public void setGetter(Boolean getter) {
-		this.getter = getter;
-	}
-
-	
-
-	public Boolean getSetter() {
-		return setter;
-	}
-
-	public void setSetter(Boolean setter) {
-		this.setter = setter;
-	}
 
 	public FMPersistentCharacteristics getPersistentCharacteristics() {
 		return persistentCharacteristics;
@@ -145,14 +134,5 @@ public class FMProperty extends FMElement  {
 		this.label = label;
 	}
 
-	@Override
-	public String toString() {
-		return "FMProperty [type=" + type + ", visibility=" + visibility + ", lower=" + lower + ", upper=" + upper
-				+ ", getter=" + getter + ", Setter=" + setter + ", persistentCharacteristics="
-				+ persistentCharacteristics + ", linkedCharacteristics=" + linkedCharacteristics + "]";
-	}
-
-	
-	
 	
 }

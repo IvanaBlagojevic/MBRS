@@ -45,9 +45,11 @@ public class ${class.name}DTO {
 	<#if property.upper == 1 >   
 		<#if property.persistentCharacteristics??>
 			this.${property.name} = ${class.name?uncap_first}.get${property.name?cap_first}();
-		<#else>
-			this.${property.name} = new ${property.type.name}DTO(${class.name?uncap_first}.get${property.name?cap_first}());
 		</#if>
+	<#elseif property.upper ==-1>
+			for(int i=0; i < ${class.name?uncap_first}.get${property.name?cap_first}().size(); i++) {
+				this.${property.name}.add(new ${property.name?cap_first}DTO(${class.name?uncap_first}.get${property.name?cap_first}().get(i)));
+			}	
 	</#if> 	
 	</#list>
 				
