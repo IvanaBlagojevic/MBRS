@@ -9,6 +9,20 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnumLiteral;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.ocl.OCL;
+import org.eclipse.ocl.ecore.CallOperationAction;
+import org.eclipse.ocl.ecore.EcoreEnvironmentFactory;
+import org.eclipse.ocl.ecore.SendSignalAction;
+import org.eclipse.ocl.expressions.OCLExpression;
+import org.eclipse.ocl.helper.OCLHelper;
 
 import plugin.generator.fmmodel.CascadeType;
 import plugin.generator.fmmodel.ComponentType;
@@ -36,6 +50,7 @@ import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Classifier;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Enumeration;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Property;
 import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.Type;
+import com.nomagic.uml2.ext.magicdraw.classes.mdkernel.ValueSpecification;
 import com.nomagic.uml2.ext.magicdraw.mdprofiles.Stereotype;
 import com.nomagic.uml2.synchronizer.ConstrainedElementHack;
 
@@ -157,7 +172,7 @@ public class ModelAnalyzer {
 						FMModel.getInstance().setVersion(version);
 						break;
 					case "port":
-						Integer port = (Integer) value.get(0);
+						String port = (String) value.get(0);
 						FMModel.getInstance().setPort(port);
 						break;
 					case "databaseUrl":
@@ -261,7 +276,27 @@ public class ModelAnalyzer {
 			/*Collection<Constraint> cons= stereotypeEntity.get_constraintOfConstrainedElement();
 			if (cons.isEmpty()!=true) {
 				for (Constraint constraint : cons) {
-					constraint.
+					ValueSpecification v = constraint.getSpecification();
+					OCLExpression<EClassifier> query = null;
+					try {
+						// create an OCL instance for Ecore
+						 OCL<EPackage, EClassifier, EOperation, EStructuralFeature, EEnumLiteral, EParameter, EObject, CallOperationAction, SendSignalAction, org.eclipse.ocl.ecore.Constraint, EClass, EObject> ocl;
+						 ocl = OCL.newInstance(EcoreEnvironmentFactory.INSTANCE);
+
+						 // create an OCL helper object
+						 OCLHelper<EClassifier, EOperation, EStructuralFeature, org.eclipse.ocl.ecore.Constraint> helper = ocl.createOCLHelper();
+
+						 // set the OCL context classifier
+						 
+						 helper.setInstanceContext("Entity");
+
+						 query = helper.createQuery(v.toString());
+
+		
+					} catch (Exception e) {
+						// TODO: handle exception
+						JOptionPane.showMessageDialog(null, v.toString());
+					}
 				}
 			}*/
 			

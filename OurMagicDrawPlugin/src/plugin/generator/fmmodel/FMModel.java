@@ -16,7 +16,7 @@ public class FMModel {
 	private String groupId;
 	private String artifactId;
 	private String version;
-	private Integer port;
+	private String port;
 	private String databaseUrl;
 	private String databaseUsername;
 	private String databasePassword;
@@ -66,11 +66,11 @@ public class FMModel {
 		this.version = version;
 	}
 
-	public Integer getPort() {
+	public String getPort() {
 		return port;
 	}
 
-	public void setPort(Integer port) {
+	public void setPort(String port) {
 		this.port = port;
 	}
 
