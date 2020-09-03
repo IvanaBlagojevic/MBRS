@@ -65,7 +65,7 @@ public class ${class.name}Controller {
 	</#if>
 	
 	<#if class.update>
-	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateOne(@RequestBody ${class.name}DTO ${class.name?lower_case}DTO) {
 		${class.name?cap_first} ${class.name?lower_case} = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case}DTO.convert());
 		

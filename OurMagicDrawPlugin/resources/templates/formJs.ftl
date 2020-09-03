@@ -1,27 +1,46 @@
 $(document).on('submit','#${class.name?lower_case}Form',function(e){
-
-	alert("Klik");
 	var pom = {};
 	<#list properties as prop>
 		pom.${prop.name} = $('#${prop.name}').val();
 	</#list>
-	
-	$.ajax({
-			type: 'POST',
-			url: "http://localhost:${port}/${class.name?lower_case}/create",
-			contentType : 'application/json',
-			dataType : "json",
-			data:JSON.stringify(pom),
-			success:function(data){
-				
-				window.location.href="${class.name?uncap_first}.html";
-				
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				alert(errorThrown);
-				window.location.href="index.html";
-			}
-		});
+	$(function () {
+		var decide_url =$('#Add').val();
+		if(decide_url == "Add"){
+			$.ajax({
+				type: 'POST',
+				url: "http://localhost:${port}/${class.name?lower_case}/create",
+				contentType : 'application/json',
+				dataType : "json",
+				data:formatJSON(),
+				success:function(data){
+					
+					window.location.href="${class.name?uncap_first}.html";
+					
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(errorThrown);
+					window.location.href="index.html";
+				}
+			});
+		}else{
+			$.ajax({
+				type: 'PUT',
+				url: "http://localhost:${port}/${class.name?lower_case}/update",
+				contentType : 'application/json',
+				dataType : "json",
+				data:formatJSON(),
+				success:function(data){
+					
+					window.location.href="${class.name?uncap_first}.html";
+					
+				},
+				error : function(XMLHttpRequest, textStatus, errorThrown) {
+					alert(errorThrown);
+					window.location.href="index.html";
+				}
+			});
+		}
+	});
 });
 
 $(document).on('click', 'table tbody tr', function(){
@@ -120,33 +139,64 @@ $(document).ready(function(){
 	
 });
 
-$(document).on('submit','#${class.name?lower_case}Form',function(e){
-<#-- DODATI VALIDNU PUTANJU ENDPOINT-A NA BACKENDU -->
-
-	$.ajax({
-			type: 'POST',
-			url: "http://localhost:${port}/${class.name?lower_case}/add'",
-			contentType : 'application/json',
-			dataType : "json",
-			data:formatJSON(),
-			success:function(data){
-				
-				window.location.href="${class.name}.html";
-				
-			},
-			error : function(XMLHttpRequest, textStatus, errorThrown) {
-				alert(errorThrown);
-				window.location.href="index.html";
-			}
-		});
-});
 
 function formatJSON(){
-	return JSON.stringify({
-		<#list properties as prop>
-		"${prop.name}":$('${prop.name}').val(),
-		</#list>
-});
-	
+	var decide_button =$('#Add').val();
+
+	if(decide_button == "Add"){
+		return JSON.stringify({
+				<#list properties as prop>
+				"${prop.name}":$('#${prop.name}').val(),
+				</#list>
+			});
+	}else{
+		params = getParams();
+		return JSON.stringify({
+			"id":params["id"],
+			<#list properties as prop>
+			"${prop.name}":$('#${prop.name}').val(),
+			</#list>
+		});
+	}
 	
 }
+
+function getParams(){
+	   var idx = document.URL.indexOf('?'); 
+	   var params = new Array();   
+	   if (idx != -1) {
+	        var pairs = document.URL.substring(idx+1, document.URL.length).split('&');
+	        for (var i=0; i<pairs.length; i++){
+	        	nameVal = pairs[i].split('=');
+	            params[nameVal[0]] = nameVal[1];
+	            $(function () {
+	          	  $('#'+nameVal[0]).val(nameVal[1]);
+	          	});
+	        }
+	        $.ajax({
+	            type: 'GET',
+	            url: 'http://localhost:${port}/${class.name?lower_case}/' + params["id"],
+	            contentType: 'application/json',
+	            success: function (data)
+	    		{
+	            	
+	            	for (const [key, value] of Object.entries(data)) {
+	            		  
+	            		  $(function () {
+	                      	  $('#'+key).val(value);
+	                      	});
+	            		}
+	    		}
+	        });	
+	        $(function () {
+		    	$("#Add").prop('value', 'Update');
+	        	}); 
+	   }
+	    console.log(params["id"]);
+	    
+	    return params;
+	}
+
+params = getParams();
+	
+	

@@ -111,6 +111,8 @@ tr:nth-child(even) {
 				  <th>List of ${prop.name}s</th>
 				  </#if>
 				  </#list>
+				  <th>Update</th>
+				  <th>Delete</th>
 			  </tr>
 			  <tr id="tableRows">
 			  </tr>

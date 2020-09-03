@@ -109,24 +109,24 @@ table tbody tr:hover {
   <div class="w3-container" id="services" style="margin-top:75px">
     <h1 class="w3-xxxlarge w3-text-red"><b>Add ${class.name}</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
-    <form id="${class.name?lower_case}Form" action="/action_page.php" target="_blank">
+    <form id="${class.name?lower_case}Form" >
     	<#list properties as p>
     		<#if p.component??>
 		    	<#if p.component == 'TEXT_FIELD'>
 		    	<label>${p.label}</label>
-		    	<input class="w3-input w3-border" type="text" name="${p.name}" required>
+		    	<input class="w3-input w3-border" type="text" id="${p.name}" name="${p.name}" required>
 		    	<#elseif p.component == 'NUMERIC_FIELD'>
 		    	<label>${p.label}</label>
-		    	<input class="w3-input w3-border" type="number" name="${p.name}" required>
+		    	<input class="w3-input w3-border" type="number" id="${p.name}" name="${p.name}" required>
 		    	<#elseif p.component == 'PASSWORD_FIELD'>
 		    	<label>${p.label}</label>
-		    	<input class="w3-input w3-border" type="number" name="${p.name}" required>
+		    	<input class="w3-input w3-border" type="number" id="${p.name}" name="${p.name}" required>
 		    	<#elseif p.component == 'DATE_FIELD'>
 		    	<label>${p.label}</label>
-		    	<input class="w3-input w3-border" type="date" name="${p.name}" required>
+		    	<input class="w3-input w3-border" type="date" id="${p.name}" name="${p.name}" required>
 		    	<#elseif p.component == 'SELECT'>
 		    	<label>${p.label}</label>
-		    	<select class="w3-input w3-border" name="${p.name}">
+		    	<select class="w3-input w3-border" id="${p.name}" name="${p.name}">
 		    	
 		     	<#list enumerations as enum>
 		    		<#if enum.name == p.type.name>
@@ -151,7 +151,7 @@ table tbody tr:hover {
 	    	</#if>
     	</#list>
     	
-      <input type="submit" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" value="Add">
+      <input type="submit" class="w3-button w3-block w3-padding-large w3-red w3-margin-bottom" id="Add" value="Add">
     </form>  
   </div>
   

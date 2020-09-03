@@ -1,6 +1,6 @@
 function initializePage(){
 	
-
+	$("#${class.name?uncap_first}Table").find("tr:gt(0)").remove();
 	$.ajax({
 			url: 'http://localhost:${port}/${class.name?lower_case}',
 			type: 'GET',
@@ -20,6 +20,8 @@ function initializePage(){
 					str += '<td><a href="#"  id="${prop.name}Next" onclick="showModal(this)" name="controller=${prop.name},id=' + data[i].id + '">${prop.name}s</a></td>';
 					</#if>
 					</#list>
+					str += '<td><a href="./${class.name?lower_case}Form.html?id='+ data[i].id +'" >Update</a></td>';
+					str += '<td><a href="#"  id="delete" onclick="deleteItem('+ data[i].id +')">Delete</a></td>';
 					str += '</tr>';
 				}
 				$("#${class.name?uncap_first}Table").append(str);
@@ -137,3 +139,21 @@ const capitalize = (s) => {
   if (typeof s !== 'string') return ''
   return s.charAt(0).toUpperCase() + s.slice(1)
 }
+
+function deleteItem(id){
+
+	$.ajax({
+		url: 'http://localhost:${port}/${class.name?lower_case}/' + id,
+		type: 'DELETE',
+		contentType: 'application/json',
+		success: function (data) {
+			initializePage();
+
+		},
+		error: function (message) {
+			console.log(message.responseText);
+		}
+	});
+
+}
+
