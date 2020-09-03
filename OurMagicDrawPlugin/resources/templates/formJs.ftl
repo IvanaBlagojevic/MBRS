@@ -1,14 +1,20 @@
 $(document).on('submit','#${class.name?lower_case}Form',function(e){
-<#-- DODATI VALIDNU PUTANJU ENDPOINT-A NA BACKENDU -->
+
+	alert("Klik");
+	var pom = {};
+	<#list properties as prop>
+		pom.${prop.name} = $('#${prop.name}').val();
+	</#list>
+	
 	$.ajax({
 			type: 'POST',
-			url: "http://localhost:${port}/${class.name?lower_case}/add'",
+			url: "http://localhost:${port}/${class.name?lower_case}/create",
 			contentType : 'application/json',
 			dataType : "json",
-			data:formatJSON(),
+			data:JSON.stringify(pom),
 			success:function(data){
 				
-				window.location.href="${class.name}.html";
+				window.location.href="${class.name?uncap_first}.html";
 				
 			},
 			error : function(XMLHttpRequest, textStatus, errorThrown) {

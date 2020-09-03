@@ -31,6 +31,7 @@ import plugin.generator.HtmlItemsOverviewGenerator;
 import plugin.generator.JQueryMinFileGenerator;
 import plugin.generator.JQueryVersionFileGenerator;
 import plugin.generator.JsFormGenerator;
+import plugin.generator.JsItemsOverviewGenerator;
 import plugin.generator.MainGenerator;
 import plugin.generator.EnumerationGenerator;
 import plugin.generator.ModelGenerator;
@@ -85,6 +86,7 @@ class GenerateAction extends MDAction{
 			generateHtmlIndexFile(analyzer, root, generatorOptions);
 			generateHomePageJsFile(analyzer, root, generatorOptions);
 			generateHtmlItemsOverview(analyzer, root, generatorOptions);
+			generateJsItemsOverview(analyzer, root, generatorOptions);
 			generateHtmlFormFile(analyzer, root, generatorOptions);
 			generateFormJsFile(analyzer, root, generatorOptions);
 			exportToXml();
@@ -269,6 +271,15 @@ class GenerateAction extends MDAction{
 		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("HtmlItemsOverviewGenerator");
 		HtmlItemsOverviewGenerator htmlItemsGenerator = new HtmlItemsOverviewGenerator(generatorOptions);
 		htmlItemsGenerator.generate();
+	}
+	
+	public void generateJsItemsOverview(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException
+	{
+		analyzer = new ModelAnalyzer(root, "");
+		analyzer.prepareModel();
+		generatorOptions = ProjectOptions.getProjectOptions().getGeneratorOptions().get("JsItemsOverviewGenerator");
+		JsItemsOverviewGenerator jsItemsGenerator = new JsItemsOverviewGenerator(generatorOptions);
+		jsItemsGenerator.generate();
 	}
 	
 	public void generateHtmlFormFile(ModelAnalyzer analyzer, Package root, GeneratorOptions generatorOptions) throws AnalyzeException

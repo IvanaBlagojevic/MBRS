@@ -172,8 +172,8 @@ public class ModelAnalyzer {
 						FMModel.getInstance().setVersion(version);
 						break;
 					case "port":
-						String port = (String) value.get(0);
-						FMModel.getInstance().setPort(port);
+						Integer port = (Integer) value.get(0);
+						FMModel.getInstance().setPort(port.toString());
 						break;
 					case "databaseUrl":
 						String databaseUrl = (String) value.get(0);

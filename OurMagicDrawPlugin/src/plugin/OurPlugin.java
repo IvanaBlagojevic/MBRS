@@ -49,6 +49,7 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 		htmlIndexGeneratorOptions();
 		HomePageJsGeneratorOptions();
 		htmlItemsOverviewOptions();
+		jsItemsOverviewOptions();
 		htmlFormGeneratorOptions();
 		jsFormGeneratorOptions();
 
@@ -168,6 +169,12 @@ public class OurPlugin extends com.nomagic.magicdraw.plugins.Plugin {
 	public void htmlItemsOverviewOptions() {
 		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/FrontContent", "html_items_overview", "templates",   "__{0}.html", true, ""); 	
 		ProjectOptions.getProjectOptions().getGeneratorOptions().put("HtmlItemsOverviewGenerator", generatorOptions);
+		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
+	}
+	
+	public void jsItemsOverviewOptions() {
+		GeneratorOptions generatorOptions = new GeneratorOptions("c:/temp/mbrs/FrontContent/js", "js_items_overview", "templates",   "__{0}.js", true, ""); 	
+		ProjectOptions.getProjectOptions().getGeneratorOptions().put("JsItemsOverviewGenerator", generatorOptions);
 		generatorOptions.setTemplateDir(pluginDir + File.separator + generatorOptions.getTemplateDir());
 	}
 	

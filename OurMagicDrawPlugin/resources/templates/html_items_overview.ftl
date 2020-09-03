@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins">
 <script src="jquery.min.js"></script>
-<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/${cl.name?uncap_first}.js"></script>
 <style>
 body,h1,h2,h3,h4,h5 {font-family: "Poppins", sans-serif}
 body {font-size:16px;}
@@ -29,8 +29,49 @@ tr:nth-child(even) {
   background-color: #dddddd;
 }
 
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  padding-left: 200px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+/* Modal Content */
+
 </style>
-<body onload="initializeHomePage()">
+<body onload="initializePage()">
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-red w3-collapse w3-top w3-large w3-padding" style="z-index:3;width:300px;font-weight:bold;" id="mySidebar"><br>
@@ -65,6 +106,11 @@ tr:nth-child(even) {
 				  </#if>
 				  </#if>
 				  </#list>
+				  <#list properties as prop>
+				  <#if prop.upper == -1>
+				  <th>List of ${prop.name}s</th>
+				  </#if>
+				  </#list>
 			  </tr>
 			  <tr id="tableRows">
 			  </tr>
@@ -74,6 +120,14 @@ tr:nth-child(even) {
 	</div>
  
 <!-- End page content -->
+	<div id="modalDiv" class="modal">	
+		<!-- Modal content -->
+		<div class="modal-content">
+		    <span class="close" id="closeBtn">&times;</span>
+		    <h1 class="w3-xxxlarge w3-text-red" id="modalLabel"></h1>
+			<table id="modalTable">
+		</div>
+	</div>
 </div>
 
 <script>
