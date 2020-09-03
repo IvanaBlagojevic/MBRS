@@ -57,9 +57,23 @@ public class ${class.name}Controller {
 	<#if class.create>
 	@RequestMapping(value = "/create", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> createOne(@RequestBody ${class.name}DTO ${class.name?lower_case}DTO) {
-		${class.name?cap_first} ${class.name?lower_case} = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case}DTO.convert());
-		
-		return (${class.name?lower_case} == null) ? ResponseEntity.badRequest().build() : ResponseEntity.ok(${class.name?lower_case});
+		<#assign x =false>
+		<#list properties as property>
+			<#if property.upper == 1 >
+				<#if !property.persistentCharacteristics?? >
+				<#assign x =true>
+		${class.name} ${class.name?lower_case} = ${class.name?lower_case}DTO.convert();
+		${class.name?lower_case}.set${property.name?cap_first}(this.${property.name?lower_case}Service.findOne(${class.name?lower_case}DTO.get${property.name?cap_first}()));
+		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case});		
+				</#if>
+			</#if>
+		</#list>
+		<#if x??>
+			<#if x==false>
+		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case}DTO.convert());		
+			</#if>
+		</#if>
+		return (${class.name?lower_case}1 == null) ? ResponseEntity.badRequest().build() : ResponseEntity.ok(${class.name?lower_case}1);
 	
 	}
 	</#if>
@@ -67,9 +81,24 @@ public class ${class.name}Controller {
 	<#if class.update>
 	@RequestMapping(value = "/update", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<?> updateOne(@RequestBody ${class.name}DTO ${class.name?lower_case}DTO) {
-		${class.name?cap_first} ${class.name?lower_case} = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case}DTO.convert());
-		
-		return (${class.name?lower_case} == null) ? ResponseEntity.badRequest().build() : ResponseEntity.ok(${class.name?lower_case});
+		<#assign x =false>
+		<#list properties as property>
+			<#if property.upper == 1 >
+				<#if !property.persistentCharacteristics?? >
+				<#assign x =true>
+		${class.name} ${class.name?lower_case} = ${class.name?lower_case}DTO.convert();
+		${class.name?lower_case}.set${property.name?cap_first}(this.${property.name?lower_case}Service.findOne(${class.name?lower_case}DTO.get${property.name?cap_first}()));
+				</#if>
+			</#if>
+		</#list>
+		<#if x??>
+			<#if x==false>
+		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case}DTO.convert());		
+			<#else>
+		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case});		
+			</#if>
+		</#if>
+		return (${class.name?lower_case}1 == null) ? ResponseEntity.badRequest().build() : ResponseEntity.ok(${class.name?lower_case}1);
 	
 	}
 	</#if>

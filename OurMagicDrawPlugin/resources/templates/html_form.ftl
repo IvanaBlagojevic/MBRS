@@ -109,7 +109,7 @@ table tbody tr:hover {
   <div class="w3-container" id="services" style="margin-top:75px">
     <h1 class="w3-xxxlarge w3-text-red"><b>Add ${class.name}</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
-    <form id="${class.name?lower_case}Form" >
+    <form id="${class.name?lower_case}Form" action="/${class.name}.html">
     	<#list properties as p>
     		<#if p.component??>
 		    	<#if p.component == 'TEXT_FIELD'>
@@ -144,7 +144,7 @@ table tbody tr:hover {
 	    			<!-- FORM FIELDS FOR LINKED PROPERTIES -->
 	    			
 			           	<label for="name">${p.name?cap_first} id:</label>
-			           	<input class="w2-input" type="text" id="${p.name?lower_case}Id" readonly>
+			           	<input class="w2-input" type="text" id="${p.name?lower_case}" readonly>
 			           	<p><a href="#ex1" class="w3-button w3-red w3-margin-bottom" rel="modal:open" id="${p.name?lower_case}">Choose ${p.name}</a></p>
 			          
 	    		</#if>

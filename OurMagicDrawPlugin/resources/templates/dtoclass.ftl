@@ -27,7 +27,7 @@ public class ${class.name}DTO {
 	${property.visibility} ${property.type.name} ${property.name};
 		</#if>
 	<#else>
-	${property.visibility} ${property.type.name}DTO ${property.name};
+	${property.visibility} long ${property.name};
 	</#if>   
 <#elseif property.upper == -1 > 
 	${property.visibility} List<${property.type.name}DTO> ${property.name} = new ArrayList<${property.type.name}DTO>();
@@ -45,6 +45,8 @@ public class ${class.name}DTO {
 	<#if property.upper == 1 >   
 		<#if property.persistentCharacteristics??>
 			this.${property.name} = ${class.name?uncap_first}.get${property.name?cap_first}();
+		<#else>
+			this.${property.name} = ${class.name?uncap_first}.get${property.name?cap_first}().getId();
 		</#if>
 	<#elseif property.upper ==-1>
 			for(int i=0; i < ${class.name?uncap_first}.get${property.name?cap_first}().size(); i++) {
@@ -59,11 +61,11 @@ public class ${class.name}DTO {
 <#if property.upper == 1>
 	<#if property.linkedCharacteristics??>
 	 	<#if property.linkedCharacteristics.oppositeUpper == -1>
-	public ${property.type.name}DTO get${property.name?cap_first}(){
+	public long get${property.name?cap_first}(){
 		return ${property.name};
 	}
 	
-	public void set${property.name?cap_first}(${property.type.name}DTO ${property.name}){
+	public void set${property.name?cap_first}(long ${property.name}){
 		this.${property.name} = ${property.name};
 	}
 		</#if>
@@ -94,8 +96,6 @@ public class ${class.name}DTO {
 			<#if property.upper == 1 >
 				<#if property.persistentCharacteristics??>
 		${class.name?lower_case}.set${property.name?cap_first}(this.${property.name});
-				<#else>
-		${class.name?lower_case}.set${property.name?cap_first}(this.${property.name}.convert());
 				</#if>
 			</#if> 	
 		</#list>

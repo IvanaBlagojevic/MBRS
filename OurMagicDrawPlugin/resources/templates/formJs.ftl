@@ -58,7 +58,7 @@ $(document).on('click', 'table tbody tr', function(){
     console.log(selected);
    	
    	$("#PositiveBtnId").click(function(){
-   		var where = "#" + type + "Id";
+   		var where = "#" + type;
    		console.log(where);
    		
    		$(document).ready(function(){
@@ -164,7 +164,7 @@ function formatJSON(){
 function getParams(){
 	   var idx = document.URL.indexOf('?'); 
 	   var params = new Array();   
-	   if (idx != -1) {
+	   if (idx != -1 ) {
 	        var pairs = document.URL.substring(idx+1, document.URL.length).split('&');
 	        for (var i=0; i<pairs.length; i++){
 	        	nameVal = pairs[i].split('=');
@@ -173,24 +173,26 @@ function getParams(){
 	          	  $('#'+nameVal[0]).val(nameVal[1]);
 	          	});
 	        }
-	        $.ajax({
-	            type: 'GET',
-	            url: 'http://localhost:${port}/${class.name?lower_case}/' + params["id"],
-	            contentType: 'application/json',
-	            success: function (data)
-	    		{
-	            	
-	            	for (const [key, value] of Object.entries(data)) {
-	            		  
-	            		  $(function () {
-	                      	  $('#'+key).val(value);
-	                      	});
-	            		}
-	    		}
-	        });	
-	        $(function () {
-		    	$("#Add").prop('value', 'Update');
-	        	}); 
+	        if (params["id"] != undefined ) {
+		        $.ajax({
+		            type: 'GET',
+		            url: 'http://localhost:${port}/${class.name?lower_case}/' + params["id"],
+		            contentType: 'application/json',
+		            success: function (data)
+		    		{
+		            	
+		            	for (const [key, value] of Object.entries(data)) {
+		            		  
+		            		  $(function () {
+		                      	  $('#'+key).val(value);
+		                      	});
+		            		}
+		    		}
+		        });	
+		        $(function () {
+			    	$("#Add").prop('value', 'Update');
+		        	});
+		     } 
 	   }
 	    console.log(params["id"]);
 	    
