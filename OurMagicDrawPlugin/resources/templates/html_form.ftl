@@ -145,7 +145,7 @@ table tbody tr:hover {
 	    			
 			           	<label for="name">${p.name?cap_first} id:</label>
 			           	<input class="w2-input" type="text" id="${p.name?lower_case}Input" readonly>
-			           	<p><a href="#ex1" class="w3-button w3-red w3-margin-bottom" rel="modal:open" id="${p.name?lower_case}">Choose ${p.name}</a></p>
+			           	<p><a href="#ex1" onclick="showModal(this)" class="w3-button w3-red w3-margin-bottom" rel="modal:open" id="${p.name?lower_case}">Choose ${p.name}</a></p>
 			          
 	    		</#if>
 	    	</#if>

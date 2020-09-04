@@ -73,22 +73,17 @@ $(document).on('click', 'table tbody tr', function(){
    	
 });
 
-$(document).ready(function(){
+function showModal(object){
 
 	var properties = [];
-	var r = $('a[href="#ex1"]').attr('id');
+	var r = $(object).attr('id');
 	console.log(r);
 	
 	var title = r.toLowerCase().replace(/\b[a-z]/g, function(letter) {
     	return letter.toUpperCase();
 	});
 
-	$('a[href="#ex1"]').click(function(){
-		$(this).modal({
-			fadeDuration: 1000,
-			fadeDelay: 0.50
-		});
-		
+	
 		$("#modal-h4").text(title);
 		
 		$.ajax({
@@ -132,12 +127,9 @@ $(document).ready(function(){
 			}
 		});
 		
-		
-		return false;
-	});
 	
 	
-});
+};
 
 
 function formatJSON(){
