@@ -61,14 +61,20 @@ public class ${class.name}Controller {
 		<#list properties as property>
 			<#if property.upper == 1 >
 				<#if !property.persistentCharacteristics?? >
-				<#assign x =true>
+					<#if x==false>
+						<#assign x =true>
 		${class.name} ${class.name?lower_case} = ${class.name?lower_case}DTO.convert();
+					</#if>
+					<#if x==true>
 		${class.name?lower_case}.set${property.name?cap_first}(this.${property.name?lower_case}Service.findOne(${class.name?lower_case}DTO.get${property.name?cap_first}()));
-		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case});		
+					</#if>
 				</#if>
 			</#if>
 		</#list>
 		<#if x??>
+			<#if x==true>
+		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case});		
+			</#if>
 			<#if x==false>
 		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case}DTO.convert());		
 			</#if>
@@ -85,17 +91,22 @@ public class ${class.name}Controller {
 		<#list properties as property>
 			<#if property.upper == 1 >
 				<#if !property.persistentCharacteristics?? >
-				<#assign x =true>
+					<#if x==false>
+						<#assign x =true>
 		${class.name} ${class.name?lower_case} = ${class.name?lower_case}DTO.convert();
+					</#if>
+					<#if x==true>
 		${class.name?lower_case}.set${property.name?cap_first}(this.${property.name?lower_case}Service.findOne(${class.name?lower_case}DTO.get${property.name?cap_first}()));
+					</#if>
 				</#if>
 			</#if>
 		</#list>
 		<#if x??>
+			<#if x==true>
+		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case});		
+			</#if>
 			<#if x==false>
 		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case}DTO.convert());		
-			<#else>
-		${class.name?cap_first} ${class.name?lower_case}1 = this.${class.name?lower_case}Service.save${class.name}(${class.name?lower_case});		
 			</#if>
 		</#if>
 		return (${class.name?lower_case}1 == null) ? ResponseEntity.badRequest().build() : ResponseEntity.ok(${class.name?lower_case}1);

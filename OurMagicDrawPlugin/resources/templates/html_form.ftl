@@ -109,24 +109,24 @@ table tbody tr:hover {
   <div class="w3-container" id="services" style="margin-top:75px">
     <h1 class="w3-xxxlarge w3-text-red"><b>Add ${class.name}</b></h1>
     <hr style="width:50px;border:5px solid red" class="w3-round">
-    <form id="${class.name?lower_case}Form" action="/${class.name}.html">
+    <form id="${class.name?lower_case}Form" action="./index.html">
     	<#list properties as p>
     		<#if p.component??>
 		    	<#if p.component == 'TEXT_FIELD'>
 		    	<label>${p.label}</label>
-		    	<input class="w3-input w3-border" type="text" id="${p.name}" name="${p.name}" required>
+		    	<input class="w3-input w3-border" type="text" id="${p.name}Input" name="${p.name}" required>
 		    	<#elseif p.component == 'NUMERIC_FIELD'>
 		    	<label>${p.label}</label>
-		    	<input class="w3-input w3-border" type="number" id="${p.name}" name="${p.name}" required>
+		    	<input class="w3-input w3-border" type="number" id="${p.name}Input" name="${p.name}" required>
 		    	<#elseif p.component == 'PASSWORD_FIELD'>
 		    	<label>${p.label}</label>
-		    	<input class="w3-input w3-border" type="number" id="${p.name}" name="${p.name}" required>
+		    	<input class="w3-input w3-border" type="number" id="${p.name}Input" name="${p.name}" required>
 		    	<#elseif p.component == 'DATE_FIELD'>
 		    	<label>${p.label}</label>
-		    	<input class="w3-input w3-border" type="date" id="${p.name}" name="${p.name}" required>
+		    	<input class="w3-input w3-border" type="date" id="${p.name}Input" name="${p.name}" required>
 		    	<#elseif p.component == 'SELECT'>
 		    	<label>${p.label}</label>
-		    	<select class="w3-input w3-border" id="${p.name}" name="${p.name}">
+		    	<select class="w3-input w3-border" id="${p.name}Input" name="${p.name}">
 		    	
 		     	<#list enumerations as enum>
 		    		<#if enum.name == p.type.name>
@@ -144,7 +144,7 @@ table tbody tr:hover {
 	    			<!-- FORM FIELDS FOR LINKED PROPERTIES -->
 	    			
 			           	<label for="name">${p.name?cap_first} id:</label>
-			           	<input class="w2-input" type="text" id="${p.name?lower_case}" readonly>
+			           	<input class="w2-input" type="text" id="${p.name?lower_case}Input" readonly>
 			           	<p><a href="#ex1" class="w3-button w3-red w3-margin-bottom" rel="modal:open" id="${p.name?lower_case}">Choose ${p.name}</a></p>
 			          
 	    		</#if>

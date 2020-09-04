@@ -58,7 +58,7 @@ $(document).on('click', 'table tbody tr', function(){
     console.log(selected);
    	
    	$("#PositiveBtnId").click(function(){
-   		var where = "#" + type;
+   		var where = "#" + type+'Input';
    		console.log(where);
    		
    		$(document).ready(function(){
@@ -146,7 +146,7 @@ function formatJSON(){
 	if(decide_button == "Add"){
 		return JSON.stringify({
 				<#list properties as prop>
-				"${prop.name}":$('#${prop.name}').val(),
+				"${prop.name}":$('#${prop.name}Input').val(),
 				</#list>
 			});
 	}else{
@@ -154,7 +154,7 @@ function formatJSON(){
 		return JSON.stringify({
 			"id":params["id"],
 			<#list properties as prop>
-			"${prop.name}":$('#${prop.name}').val(),
+			"${prop.name}":$('#${prop.name}Input').val(),
 			</#list>
 		});
 	}
@@ -184,7 +184,7 @@ function getParams(){
 		            	for (const [key, value] of Object.entries(data)) {
 		            		  
 		            		  $(function () {
-		                      	  $('#'+key).val(value);
+		                      	  $('#'+key+'Input').val(value);
 		                      	});
 		            		}
 		    		}
